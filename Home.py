@@ -1,218 +1,366 @@
-"""
-Mines ProEd Information Portal - Home Page
-A Streamlit app showcasing Colorado School of Mines Professional Education program
-"""
 import streamlit as st
-from utils import (
-    apply_mines_styling,
-    render_header,
-    render_sidebar,
-    create_metric_card,
-    create_info_card,
-    MINES_COLORS,
-)
 
 # Page configuration
 st.set_page_config(
-    page_title="Mines ProEd Portal",
+    page_title="Mines ProEd | Professional Education",
     page_icon="⛏️",
     layout="wide",
-    initial_sidebar_state="expanded",
+    initial_sidebar_state="expanded"
 )
 
-# Apply Mines branding
-apply_mines_styling()
+# Custom CSS for Mines branding - Light theme with high contrast
+st.markdown("""
+<style>
+    /* Import Google Fonts */
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Open+Sans:wght@400;500;600&display=swap');
+    
+    /* Main colors */
+    :root {
+        --dark-blue: #21314d;
+        --blaster-blue: #09396C;
+        --light-blue: #879EC3;
+        --colorado-red: #CC4628;
+        --pale-blue: #CFDCE9;
+        --white: #FFFFFF;
+        --dark-gray: #75757D;
+        --light-gray: #AEB3B8;
+    }
+    
+    /* Force light theme */
+    .stApp {
+        background-color: #FFFFFF;
+    }
+    
+    /* Main content area */
+    .main .block-container {
+        padding-top: 2rem;
+        max-width: 1200px;
+    }
+    
+    /* Headers */
+    h1, h2, h3, h4, h5, h6 {
+        font-family: 'Montserrat', sans-serif !important;
+        color: #21314d !important;
+    }
+    
+    h1 {
+        font-weight: 700 !important;
+        font-size: 2.5rem !important;
+    }
+    
+    h2 {
+        font-weight: 600 !important;
+        border-bottom: 3px solid #CC4628;
+        padding-bottom: 0.5rem;
+        margin-top: 2rem !important;
+    }
+    
+    h3 {
+        font-weight: 600 !important;
+        color: #09396C !important;
+    }
+    
+    /* Body text */
+    p, li, span, div {
+        font-family: 'Open Sans', sans-serif !important;
+        color: #21314d;
+    }
+    
+    /* Sidebar styling */
+    [data-testid="stSidebar"] {
+        background-color: #21314d;
+    }
+    
+    [data-testid="stSidebar"] * {
+        color: #FFFFFF !important;
+    }
+    
+    [data-testid="stSidebar"] .stMarkdown p {
+        color: #FFFFFF !important;
+    }
+    
+    /* Cards/Info boxes */
+    .info-card {
+        background: linear-gradient(135deg, #FFFFFF 0%, #CFDCE9 100%);
+        border-radius: 12px;
+        padding: 1.5rem;
+        margin: 1rem 0;
+        border-left: 5px solid #CC4628;
+        box-shadow: 0 4px 6px rgba(33, 49, 77, 0.1);
+    }
+    
+    .stat-card {
+        background: #21314d;
+        border-radius: 12px;
+        padding: 1.5rem;
+        text-align: center;
+        color: #FFFFFF !important;
+    }
+    
+    .stat-card h3, .stat-card p {
+        color: #FFFFFF !important;
+    }
+    
+    .highlight-card {
+        background: #CFDCE9;
+        border-radius: 12px;
+        padding: 1.5rem;
+        margin: 1rem 0;
+        border: 2px solid #879EC3;
+    }
+    
+    /* Links */
+    a {
+        color: #CC4628 !important;
+        text-decoration: none;
+        font-weight: 500;
+    }
+    
+    a:hover {
+        text-decoration: underline;
+    }
+    
+    /* Buttons */
+    .stButton > button {
+        background-color: #CC4628;
+        color: #FFFFFF;
+        font-family: 'Montserrat', sans-serif;
+        font-weight: 600;
+        border: none;
+        border-radius: 8px;
+        padding: 0.75rem 2rem;
+        transition: all 0.3s ease;
+    }
+    
+    .stButton > button:hover {
+        background-color: #21314d;
+        color: #FFFFFF;
+    }
+    
+    /* Metrics */
+    [data-testid="stMetricValue"] {
+        color: #21314d !important;
+        font-family: 'Montserrat', sans-serif !important;
+        font-weight: 700 !important;
+    }
+    
+    [data-testid="stMetricLabel"] {
+        color: #75757D !important;
+    }
+    
+    /* Expanders */
+    .streamlit-expanderHeader {
+        background-color: #CFDCE9;
+        border-radius: 8px;
+        font-family: 'Montserrat', sans-serif !important;
+        font-weight: 600;
+        color: #21314d !important;
+    }
+    
+    /* Hero section */
+    .hero-section {
+        background: linear-gradient(135deg, #21314d 0%, #09396C 100%);
+        padding: 3rem;
+        border-radius: 16px;
+        margin-bottom: 2rem;
+    }
+    
+    .hero-section h1, .hero-section p {
+        color: #FFFFFF !important;
+    }
+    
+    /* Feature list */
+    .feature-item {
+        display: flex;
+        align-items: flex-start;
+        gap: 1rem;
+        padding: 1rem 0;
+        border-bottom: 1px solid #CFDCE9;
+    }
+    
+    .feature-icon {
+        background: #CC4628;
+        color: #FFFFFF;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+    }
+    
+    /* Divider */
+    hr {
+        border: none;
+        height: 2px;
+        background: linear-gradient(to right, #CC4628, #CFDCE9);
+        margin: 2rem 0;
+    }
+    
+    /* Quote styling */
+    .quote-box {
+        background: #FFFFFF;
+        border-left: 4px solid #CC4628;
+        padding: 1.5rem;
+        margin: 1.5rem 0;
+        font-style: italic;
+        color: #21314d;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+</style>
+""", unsafe_allow_html=True)
 
-# Render sidebar
-render_sidebar()
-
-# Main content
-render_header()
+# Sidebar
+with st.sidebar:
+    st.image("https://brand.mines.edu/wp-content/uploads/sites/425/2023/03/Mines-Logo-triangle-blue.png", width=80)
+    st.markdown("### Mines ProEd")
+    st.markdown("Professional Education from Colorado School of Mines")
+    st.divider()
+    st.markdown("#### Quick Links")
+    st.markdown("🔗 [ProEd Catalog](https://proed.mines.edu/pages/catalog-featured-courses)")
+    st.markdown("🔗 [ProEd Homepage](https://proed.mines.edu/)")
+    st.markdown("🔗 [Alumni Discount Form](https://mailchi.mp/mines/gtowt1f82q)")
+    st.divider()
+    st.markdown("**Alumni Discount Code:**")
+    st.code("ALUMNI10", language=None)
 
 # Hero Section
-st.markdown(
-    f"""
-    <div style="background: linear-gradient(135deg, {MINES_COLORS['dark_blue']} 0%, {MINES_COLORS['blaster_blue']} 100%); 
-                padding: 2rem; border-radius: 12px; color: white; margin-bottom: 2rem;">
-        <h2 style="color: white !important; margin-bottom: 1rem;">Welcome to Mines ProEd</h2>
-        <p style="font-size: 1.1rem; line-height: 1.6; color: {MINES_COLORS['pale_blue']};">
-            Mines ProEd delivers flexible, professional education options from Colorado School of Mines. 
-            Our courses translate cutting-edge technical expertise into real-world business impact.
-        </p>
-        <div style="margin-top: 1.5rem;">
-            <a href="https://proed.mines.edu/" target="_blank" 
-               style="background-color: {MINES_COLORS['colorado_red']}; color: white !important; 
-                      padding: 0.75rem 1.5rem; border-radius: 6px; text-decoration: none;
-                      font-weight: 600; margin-right: 1rem;">
-                Explore Courses →
-            </a>
-            <a href="https://webforms.pipedrive.com/f/clTeQxDh43DxZluuQxlgduRDzDnztn2vjizguzjcyzcHtmzZhocEMbCATC0qF1KMzV" 
-               target="_blank" 
-               style="background-color: transparent; color: white !important; 
-                      padding: 0.75rem 1.5rem; border-radius: 6px; text-decoration: none;
-                      font-weight: 600; border: 2px solid white;">
-                Become an SME
-            </a>
-        </div>
-    </div>
-    """,
-    unsafe_allow_html=True,
-)
+st.markdown("""
+<div class="hero-section">
+    <h1 style="margin-bottom: 1rem;">Mines ProEd</h1>
+    <p style="font-size: 1.3rem; margin-bottom: 0;">Flexible, professional education options from Colorado School of Mines.<br>
+    Translating cutting-edge technical expertise into real-world business impact.</p>
+</div>
+""", unsafe_allow_html=True)
 
-# Value Propositions
-st.markdown("## Why Mines ProEd?")
+# Introduction
+st.markdown("""
+Of the many things that differentiate Colorado School of Mines from other universities is our long history 
+of preparing **industry-ready graduates** that go on to successful careers and industry leadership roles. 
+That hasn't happened by accident. It reflects the strong partnerships that we have with industry and our 
+commitment to aligning our education with industry needs.
+""")
 
-col1, col2, col3 = st.columns(3)
-
-with col1:
-    st.markdown(
-        f"""
-        <div style="background-color: {MINES_COLORS['pale_blue']}; padding: 1.5rem; 
-                    border-radius: 12px; height: 200px;">
-            <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">🎓</div>
-            <h4 style="color: {MINES_COLORS['dark_blue']}; margin-bottom: 0.5rem;">Expert Faculty</h4>
-            <p style="color: {MINES_COLORS['text_dark']};">
-                Learn directly from Mines' world-class faculty and industry experts shaping today's technologies.
-            </p>
-        </div>
-        """,
-        unsafe_allow_html=True,
-    )
-
-with col2:
-    st.markdown(
-        f"""
-        <div style="background-color: {MINES_COLORS['pale_blue']}; padding: 1.5rem; 
-                    border-radius: 12px; height: 200px;">
-            <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">⚡</div>
-            <h4 style="color: {MINES_COLORS['dark_blue']}; margin-bottom: 0.5rem;">Flexible Learning</h4>
-            <p style="color: {MINES_COLORS['text_dark']};">
-                Access self-paced online, facilitated, hybrid, and in-person options that fit your schedule.
-            </p>
-        </div>
-        """,
-        unsafe_allow_html=True,
-    )
-
-with col3:
-    st.markdown(
-        f"""
-        <div style="background-color: {MINES_COLORS['pale_blue']}; padding: 1.5rem; 
-                    border-radius: 12px; height: 200px;">
-            <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">🚀</div>
-            <h4 style="color: {MINES_COLORS['dark_blue']}; margin-bottom: 0.5rem;">Career Impact</h4>
-            <p style="color: {MINES_COLORS['text_dark']};">
-                Step into new responsibility, accelerate advancement, or pivot careers with new technical expertise.
-            </p>
-        </div>
-        """,
-        unsafe_allow_html=True,
-    )
-
-st.markdown("<br>", unsafe_allow_html=True)
-
-# What You'll Gain Section
-st.markdown("## What You'll Gain")
-
-gains = [
-    ("🔬", "Technical Fluency", "Gain fluency in the science and economics driving energy and resource industries"),
-    ("🏆", "Professional Credibility", "Build credibility with engineers, investors, and clients"),
-    ("💡", "Innovation Insights", "Discover opportunities for innovation, sustainability, and growth"),
-    ("📈", "Career Advancement", "Step into new responsibility or accelerate your advancement"),
-]
+# Key Benefits
+st.markdown("## Why Choose Mines ProEd?")
 
 col1, col2 = st.columns(2)
 
-for i, (icon, title, desc) in enumerate(gains):
-    with col1 if i % 2 == 0 else col2:
-        st.markdown(
-            create_info_card(title, desc, icon),
-            unsafe_allow_html=True,
-        )
+with col1:
+    st.markdown("""
+    <div class="info-card">
+        <h3 style="margin-top: 0;">🎯 Gain Technical Fluency</h3>
+        <p>Develop deep understanding of the science and economics driving energy and resource industries.</p>
+    </div>
+    """, unsafe_allow_html=True)
+    
+    st.markdown("""
+    <div class="info-card">
+        <h3 style="margin-top: 0;">👨‍🏫 Learn from Experts</h3>
+        <p>Access Mines' world-class faculty and industry experts shaping today's technologies.</p>
+    </div>
+    """, unsafe_allow_html=True)
+    
+    st.markdown("""
+    <div class="info-card">
+        <h3 style="margin-top: 0;">💼 Build Credibility</h3>
+        <p>Strengthen your standing with engineers, investors, and clients through recognized credentials.</p>
+    </div>
+    """, unsafe_allow_html=True)
 
-# Course Focus Areas
-st.markdown("<div class='mines-divider'></div>", unsafe_allow_html=True)
-st.markdown("## Course Development Areas")
-st.markdown(
-    "We are actively seeking Subject Matter Experts (SMEs) to help develop courses in these key areas:"
-)
+with col2:
+    st.markdown("""
+    <div class="info-card">
+        <h3 style="margin-top: 0;">🌱 Drive Innovation</h3>
+        <p>Discover opportunities for innovation, sustainability, and growth in your field.</p>
+    </div>
+    """, unsafe_allow_html=True)
+    
+    st.markdown("""
+    <div class="info-card">
+        <h3 style="margin-top: 0;">🚀 Accelerate Your Career</h3>
+        <p>Step into new responsibilities, accelerate advancement, or pivot with new technical expertise.</p>
+    </div>
+    """, unsafe_allow_html=True)
+    
+    st.markdown("""
+    <div class="info-card">
+        <h3 style="margin-top: 0;">⏰ Flexible Learning</h3>
+        <p>From self-paced online modules to in-person sessions—learn in the way that works best for you.</p>
+    </div>
+    """, unsafe_allow_html=True)
 
-areas = [
-    ("⚡", "Energy", "Future-looking: traditional sources, nuclear, geothermal"),
-    ("🤖", "AI in Industry", "Practical AI applications across industries"),
-    ("📊", "Executive Education", "STEM leadership and management"),
-    ("⛏️", "Mining & Minerals", "Modern mining technologies and practices"),
-    ("🚀", "Aerospace", "Space and aviation technologies"),
-    ("🏗️", "Construction Engineering", "Modern construction methods and management"),
+# Quote
+st.markdown("""
+<div class="quote-box">
+    <p style="font-size: 1.1rem; margin: 0;">"Your career doesn't stand still. Neither should your skills. Technology, innovation, and global challenges 
+    are reshaping industries. To thrive, professionals need to keep learning, growing, and adapting."</p>
+</div>
+""", unsafe_allow_html=True)
+
+# Course Categories
+st.markdown("## Course Focus Areas")
+
+focus_areas = [
+    ("⚡", "Energy", "Future-looking perspectives on traditional sources, nuclear, and geothermal"),
+    ("🤖", "AI in Industry", "Practical applications of artificial intelligence in professional settings"),
+    ("📊", "Executive Education", "Leadership and management in STEM fields"),
+    ("⛏️", "Mining & Minerals", "Advanced techniques and sustainable practices"),
+    ("🚀", "Aerospace", "Cutting-edge aerospace engineering and technology"),
+    ("🏗️", "Construction Engineering", "Modern construction methods and project management")
 ]
 
 col1, col2, col3 = st.columns(3)
 cols = [col1, col2, col3]
 
-for i, (icon, title, desc) in enumerate(areas):
+for i, (icon, title, desc) in enumerate(focus_areas):
     with cols[i % 3]:
-        st.markdown(
-            f"""
-            <div style="background: linear-gradient(135deg, {MINES_COLORS['dark_blue']} 0%, {MINES_COLORS['blaster_blue']} 100%);
-                        padding: 1.25rem; border-radius: 10px; margin-bottom: 1rem; min-height: 120px;">
-                <div style="font-size: 1.75rem; margin-bottom: 0.5rem;">{icon}</div>
-                <h5 style="color: white !important; margin: 0 0 0.25rem 0;">{title}</h5>
-                <p style="color: {MINES_COLORS['pale_blue']}; font-size: 0.85rem; margin: 0;">{desc}</p>
-            </div>
-            """,
-            unsafe_allow_html=True,
-        )
-
-# Quick Stats Section
-st.markdown("<div class='mines-divider'></div>", unsafe_allow_html=True)
-st.markdown("## At a Glance")
-
-col1, col2, col3, col4 = st.columns(4)
-
-with col1:
-    st.markdown(create_metric_card("6", "Focus Areas"), unsafe_allow_html=True)
-
-with col2:
-    st.markdown(create_metric_card("3", "Course Formats"), unsafe_allow_html=True)
-
-with col3:
-    st.markdown(create_metric_card("10%", "Alumni Discount"), unsafe_allow_html=True)
-
-with col4:
-    st.markdown(create_metric_card("20%", "SME Revenue Share"), unsafe_allow_html=True)
+        st.markdown(f"""
+        <div class="highlight-card">
+            <h3 style="margin-top: 0;">{icon} {title}</h3>
+            <p style="margin-bottom: 0; color: #75757D;">{desc}</p>
+        </div>
+        """, unsafe_allow_html=True)
 
 # Call to Action
-st.markdown("<br>", unsafe_allow_html=True)
-st.markdown(
-    f"""
-    <div style="background-color: {MINES_COLORS['pale_blue']}; padding: 2rem; 
-                border-radius: 12px; text-align: center; margin-top: 1rem;">
-        <h3 style="color: {MINES_COLORS['dark_blue']} !important; margin-bottom: 1rem;">
-            Ready to Advance Your Career?
-        </h3>
-        <p style="color: {MINES_COLORS['text_dark']}; margin-bottom: 1.5rem;">
-            Your career doesn't stand still. Neither should your skills. 
-            It's time to turn "What if?" into "What's next!"
-        </p>
-        <a href="https://proed.mines.edu/pages/catalog-featured-courses" target="_blank" 
-           style="background-color: {MINES_COLORS['colorado_red']}; color: white !important; 
-                  padding: 0.75rem 2rem; border-radius: 6px; text-decoration: none;
-                  font-weight: 600; font-size: 1.1rem;">
-            Browse Course Catalog →
-        </a>
+st.markdown("---")
+st.markdown("## Ready to Get Started?")
+
+col1, col2, col3 = st.columns(3)
+
+with col1:
+    st.markdown("""
+    <div class="stat-card">
+        <h3 style="margin-top: 0; font-size: 1.5rem;">📚 Browse Courses</h3>
+        <p>Explore our catalog of professional education offerings</p>
     </div>
-    """,
-    unsafe_allow_html=True,
-)
+    """, unsafe_allow_html=True)
+    st.link_button("View Catalog →", "https://proed.mines.edu/pages/catalog-featured-courses", use_container_width=True)
+
+with col2:
+    st.markdown("""
+    <div class="stat-card">
+        <h3 style="margin-top: 0; font-size: 1.5rem;">🎓 Become an SME</h3>
+        <p>Share your expertise by becoming a Subject Matter Expert</p>
+    </div>
+    """, unsafe_allow_html=True)
+    st.link_button("Apply Now →", "https://webforms.pipedrive.com/f/clTeQxDh43DxZluuQxlgduRDzDnztn2vjizguzjcyzcHtmzZhocEMbCATC0qF1KMzV", use_container_width=True)
+
+with col3:
+    st.markdown("""
+    <div class="stat-card">
+        <h3 style="margin-top: 0; font-size: 1.5rem;">💰 Alumni Discount</h3>
+        <p>Mines alumni receive special pricing on all courses</p>
+    </div>
+    """, unsafe_allow_html=True)
+    st.link_button("Get Discount →", "https://mailchi.mp/mines/gtowt1f82q", use_container_width=True)
 
 # Footer
-st.markdown("<br><br>", unsafe_allow_html=True)
-st.markdown(
-    f"""
-    <div style="text-align: center; color: {MINES_COLORS['text_muted']}; padding: 1rem; 
-                border-top: 1px solid {MINES_COLORS['light_gray']};">
-        <p style="margin: 0;">© Colorado School of Mines | <a href="https://brand.mines.edu/" target="_blank">Brand Guidelines</a></p>
-    </div>
-    """,
-    unsafe_allow_html=True,
-)
+st.markdown("---")
+st.markdown("""
+<div style="text-align: center; color: #75757D; padding: 1rem;">
+    <p>Colorado School of Mines | Professional Education<br>
+    <small>It's time to redirect your career. Let's turn "What if?" into "What's next!"</small></p>
+</div>
+""", unsafe_allow_html=True)

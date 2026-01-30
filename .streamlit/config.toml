@@ -1,9 +1,9 @@
 [theme]
-base = "light"
+# Mines branding - Light theme
 primaryColor = "#CC4628"
 backgroundColor = "#FFFFFF"
-secondaryBackgroundColor = "#F5F7FA"
-textColor = "#1a1a1a"
+secondaryBackgroundColor = "#CFDCE9"
+textColor = "#21314d"
 font = "sans serif"
 
 [server]

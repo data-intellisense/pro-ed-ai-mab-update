@@ -35,32 +35,49 @@ Add a page to display ProEd Information from Sam Spiegel, Assistant VP of Online
 		
 	Promotion Gaps:
 
-	Promotion of ProEd is still in the awareness building. Word of mouth and any opportunities to make other alumni aware of the program would be greatly appreciated. Our primary efforts are currently through email campaigns (based on funding and resources). The swipe sheet can help with links and language.
+		Promotion of ProEd is still in the awareness building. Word of mouth and any opportunities to make other alumni aware of the program would be greatly appreciated. Our primary efforts are currently through email campaigns (based on funding and resources). The swipe sheet can help with links and language.
 
-	We will be one of the highlighted causes during idigMines events in mid February.
+		We will be one of the highlighted causes during idigMines events in mid February.
 
 	AI Use:
 
-	I’m happy to open the conversation again about using AI both in the courses and in promotion. The HiTA program is only available for credit-bearing courses, so not for ProEd. I’m not certain what the future plans are for that program.
+		Sam is happy to open the conversation again about using AI both in the courses and in promotion. The HiTA program is only available for credit-bearing courses, so not for ProEd. I’m not certain what the future plans are for that program.
 
 Add a page to display the update about Life Long Learning & Development (focusing on ProED) for Mines Alumni Board dynamically and concisely :
-1. SME Search:  MAB will create a focused recruitment plan and begin making targeted alumni introductions. Add an option for anybody to submit their recommendation of Mines alumni to be ProEd SME, info to submit include at least linkedin profofile link, domain. 
-Display all the SME recommendations in a table nicely. 
 
-- Energy - future looking (traditional sources, nuclear, geothermal)
-- AI use in industry
-- Executive education in STEM fields
-- Mining & Minerals
-- Aerospace
-- Construction Engineering
-2. ProEd Promotion (Career Fair, Homecoming, the Mines Magazine, and the alumni portal)
-- Feature success story of ProEd student on Mines Magazines and email blast.
-3. AI for ProEd
-- Julian will work with Sam Spiegel and course SME to use AI to develop course AI teaching assistant
-- Julian will sponsor the initial overhead cost of using AI for course development and deployment.
-4. Alumni feedback for what courses to create. 
+	1. SME Search:  MAB will create a focused recruitment plan and begin making targeted alumni introductions. Add an option for anybody to submit their recommendation of Mines alumni to be ProEd SME, info to submit include at least linkedin profofile link, domain. 
+	Display all the SME recommendations in a table nicely. 
+
+	- Energy - future looking (traditional sources, nuclear, geothermal)
+	- AI use in industry
+	- Executive education in STEM fields
+	- Mining & Minerals
+	- Aerospace
+	- Construction Engineering
+		
+	2. ProEd Promotion (Career Fair, Homecoming, the Mines Magazine, and the alumni portal)
+	- Feature success story of ProEd student on Mines Magazines and email blast.
+		
+	3. AI for ProEd
+	- Julian will work with Sam Spiegel and course SME to use AI to develop course AI teaching assistant
+	- Julian will sponsor the initial overhead cost of using AI for course development and deployment.
+	
+	4. Alumni feedback for what courses to create. Add an option for users to submit their feedback on courses. 
 
 Add a page highlighting updates from the Mines AI/ML Affinity Group (MAAG), which is simply student mentoring efforts mentioned below.
+
 - Invited 10+ alumni working in the AI/ML field to serve as mentors for Mines students starting Spring 2026.
+- Areas to mentor students:
+		- Career paths and industry perspective
+
+        - AI/ML technical skills or project guidance
+
+        - Resume, interviewing, or job search prep
+
+        - Graduate school or research advice
+
+        - Leadership, communication, or career growth   
+
 
 Follow Mines branding, use logos: https://brand.mines.edu/logos/, color and fonts: https://brand.mines.edu/fonts/
+In addition, design the webpage to be clean, high contrast, pretty looking. 
