@@ -1,4 +1,6 @@
 import streamlit as st
+import os
+import base64
 
 # Page configuration
 st.set_page_config(
@@ -79,34 +81,92 @@ st.markdown("""
         color: #FFFFFF !important;
     }
     
-    /* Cards/Info boxes */
+    /* Hide sidebar collapse/expand button text */
+    [data-testid="stSidebarCollapseButton"] button,
+    [data-testid="collapsedControl"] button {
+        font-size: 0 !important;
+        color: transparent !important;
+    }
+    
+    [data-testid="stSidebarCollapseButton"] button span,
+    [data-testid="collapsedControl"] button span {
+        font-size: 0 !important;
+        visibility: hidden !important;
+    }
+    
+    /* Cards/Info boxes - Equal heights with explicit text colors */
     .info-card {
-        background: linear-gradient(135deg, #FFFFFF 0%, #CFDCE9 100%);
+        background: #CFDCE9;
         border-radius: 12px;
         padding: 1.5rem;
-        margin: 1rem 0;
+        margin: 0.5rem 0;
         border-left: 5px solid #CC4628;
-        box-shadow: 0 4px 6px rgba(33, 49, 77, 0.1);
+        height: 180px;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+    }
+    
+    .info-card h3 {
+        color: #21314d !important;
+        margin-top: 0 !important;
+        margin-bottom: 0.5rem !important;
+    }
+    
+    .info-card p {
+        color: #21314d !important;
+        margin-bottom: 0;
+        flex-grow: 1;
     }
     
     .stat-card {
-        background: #21314d;
+        background: #CFDCE9;
         border-radius: 12px;
         padding: 1.5rem;
         text-align: center;
-        color: #FFFFFF !important;
+        height: 150px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        border-left: 5px solid #CC4628;
     }
     
-    .stat-card h3, .stat-card p {
-        color: #FFFFFF !important;
+    .stat-card h3 {
+        color: #21314d !important;
+        margin-top: 0 !important;
+        margin-bottom: 0.5rem !important;
+    }
+    
+    .stat-card p {
+        color: #4a5568 !important;
+        margin-bottom: 0;
     }
     
     .highlight-card {
         background: #CFDCE9;
         border-radius: 12px;
-        padding: 1.5rem;
-        margin: 1rem 0;
-        border: 2px solid #879EC3;
+        padding: 1rem 1.25rem;
+        margin: 0.5rem 0;
+        border-left: 5px solid #CC4628;
+        height: 120px;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+    }
+    
+    .highlight-card h3 {
+        color: #21314d !important;
+        margin-top: 0 !important;
+        margin-bottom: 0.5rem !important;
+        font-size: 1rem !important;
+    }
+    
+    .highlight-card p {
+        color: #21314d !important;
+        margin-bottom: 0;
+        font-size: 0.85rem !important;
+        line-height: 1.4 !important;
     }
     
     /* Links */
@@ -165,7 +225,9 @@ st.markdown("""
         margin-bottom: 2rem;
     }
     
-    .hero-section h1, .hero-section p {
+    .hero-section h1, .hero-section h2, .hero-section h3, .hero-section h4,
+    .hero-section p, .hero-section span, .hero-section li, .hero-section strong,
+    .hero-section a, .hero-section div {
         color: #FFFFFF !important;
     }
     
@@ -211,6 +273,22 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
+# Home Page Header - Centered Horizontal Logo
+def load_logo_base64(image_path):
+    with open(image_path, "rb") as img_file:
+        return base64.b64encode(img_file.read()).decode()
+
+horiz_logo_path = os.path.join(os.path.dirname(__file__), "resources", "Horizontal", "Mines-horiz.png")
+horiz_logo_b64 = load_logo_base64(horiz_logo_path)
+
+st.markdown(f"""
+    <div style="display: flex; justify-content: center; align-items: center; padding: 1.5rem 0; margin-bottom: 1rem; border-bottom: 3px solid #CC4628;">
+        <img src="data:image/png;base64,{horiz_logo_b64}"
+             alt="Colorado School of Mines"
+             style="max-height: 120px; width: auto; object-fit: contain;">
+    </div>
+""", unsafe_allow_html=True)
+
 # Sidebar
 with st.sidebar:
     st.image("https://brand.mines.edu/wp-content/uploads/sites/425/2023/03/Mines-Logo-triangle-blue.png", width=80)
@@ -250,21 +328,21 @@ col1, col2 = st.columns(2)
 with col1:
     st.markdown("""
     <div class="info-card">
-        <h3 style="margin-top: 0;">🎯 Gain Technical Fluency</h3>
+        <h3>🎯 Gain Technical Fluency</h3>
         <p>Develop deep understanding of the science and economics driving energy and resource industries.</p>
     </div>
     """, unsafe_allow_html=True)
     
     st.markdown("""
     <div class="info-card">
-        <h3 style="margin-top: 0;">👨‍🏫 Learn from Experts</h3>
+        <h3>👨‍🏫 Learn from Experts</h3>
         <p>Access Mines' world-class faculty and industry experts shaping today's technologies.</p>
     </div>
     """, unsafe_allow_html=True)
     
     st.markdown("""
     <div class="info-card">
-        <h3 style="margin-top: 0;">💼 Build Credibility</h3>
+        <h3>💼 Build Credibility</h3>
         <p>Strengthen your standing with engineers, investors, and clients through recognized credentials.</p>
     </div>
     """, unsafe_allow_html=True)
@@ -272,21 +350,21 @@ with col1:
 with col2:
     st.markdown("""
     <div class="info-card">
-        <h3 style="margin-top: 0;">🌱 Drive Innovation</h3>
+        <h3>🌱 Drive Innovation</h3>
         <p>Discover opportunities for innovation, sustainability, and growth in your field.</p>
     </div>
     """, unsafe_allow_html=True)
     
     st.markdown("""
     <div class="info-card">
-        <h3 style="margin-top: 0;">🚀 Accelerate Your Career</h3>
+        <h3>🚀 Accelerate Your Career</h3>
         <p>Step into new responsibilities, accelerate advancement, or pivot with new technical expertise.</p>
     </div>
     """, unsafe_allow_html=True)
     
     st.markdown("""
     <div class="info-card">
-        <h3 style="margin-top: 0;">⏰ Flexible Learning</h3>
+        <h3>⏰ Flexible Learning</h3>
         <p>From self-paced online modules to in-person sessions—learn in the way that works best for you.</p>
     </div>
     """, unsafe_allow_html=True)
@@ -318,8 +396,8 @@ for i, (icon, title, desc) in enumerate(focus_areas):
     with cols[i % 3]:
         st.markdown(f"""
         <div class="highlight-card">
-            <h3 style="margin-top: 0;">{icon} {title}</h3>
-            <p style="margin-bottom: 0; color: #75757D;">{desc}</p>
+            <h3>{icon} {title}</h3>
+            <p>{desc}</p>
         </div>
         """, unsafe_allow_html=True)
 
@@ -332,7 +410,7 @@ col1, col2, col3 = st.columns(3)
 with col1:
     st.markdown("""
     <div class="stat-card">
-        <h3 style="margin-top: 0; font-size: 1.5rem;">📚 Browse Courses</h3>
+        <h3>📚 Browse Courses</h3>
         <p>Explore our catalog of professional education offerings</p>
     </div>
     """, unsafe_allow_html=True)
@@ -341,7 +419,7 @@ with col1:
 with col2:
     st.markdown("""
     <div class="stat-card">
-        <h3 style="margin-top: 0; font-size: 1.5rem;">🎓 Become an SME</h3>
+        <h3>🎓 Become an SME</h3>
         <p>Share your expertise by becoming a Subject Matter Expert</p>
     </div>
     """, unsafe_allow_html=True)
@@ -350,7 +428,7 @@ with col2:
 with col3:
     st.markdown("""
     <div class="stat-card">
-        <h3 style="margin-top: 0; font-size: 1.5rem;">💰 Alumni Discount</h3>
+        <h3>💰 Alumni Discount</h3>
         <p>Mines alumni receive special pricing on all courses</p>
     </div>
     """, unsafe_allow_html=True)

@@ -1,4 +1,6 @@
 import streamlit as st
+import os
+import base64
 
 st.set_page_config(
     page_title="SME Information | Mines ProEd",
@@ -10,6 +12,7 @@ st.set_page_config(
 st.markdown("""
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Open+Sans:wght@400;500;600&display=swap');
+    @import url('https://fonts.googleapis.com/icon?family=Material+Icons');
     
     .stApp {
         background-color: #FFFFFF;
@@ -46,33 +49,113 @@ st.markdown("""
         color: #FFFFFF !important;
     }
     
+    /* Hide sidebar collapse/expand button text */
+    [data-testid="stSidebarCollapseButton"] button,
+    [data-testid="collapsedControl"] button {
+        font-size: 0 !important;
+        color: transparent !important;
+    }
+    
+    [data-testid="stSidebarCollapseButton"] button span,
+    [data-testid="collapsedControl"] button span {
+        font-size: 0 !important;
+        visibility: hidden !important;
+    }
+    
+    
     .info-card {
         background: linear-gradient(135deg, #FFFFFF 0%, #CFDCE9 100%);
         border-radius: 12px;
         padding: 1.5rem;
-        margin: 1rem 0;
+        margin: 0.5rem 0;
         border-left: 5px solid #CC4628;
         box-shadow: 0 4px 6px rgba(33, 49, 77, 0.1);
     }
     
-    .compensation-card {
-        background: #21314d;
-        border-radius: 12px;
-        padding: 2rem;
-        color: #FFFFFF !important;
-        margin: 1rem 0;
+    .info-card h3, .info-card h4 {
+        color: #21314d !important;
+        margin-top: 0 !important;
     }
     
-    .compensation-card h3, .compensation-card p, .compensation-card li {
-        color: #FFFFFF !important;
+    .info-card p, .info-card li {
+        color: #21314d !important;
+    }
+    
+    .compensation-card {
+        background: #CFDCE9;
+        border-radius: 12px;
+        padding: 1.25rem 1.5rem;
+        margin: 0.5rem 0;
+        height: 340px;
+        display: flex;
+        flex-direction: column;
+        border-left: 5px solid #CC4628;
+    }
+    
+    .compensation-card h3 {
+        color: #21314d !important;
+        margin-top: 0 !important;
+        margin-bottom: 0.25rem !important;
+        font-size: 1.1rem !important;
+    }
+    
+    .compensation-card h4 {
+        color: #09396C !important;
+        margin-top: 0.5rem !important;
+        margin-bottom: 0.25rem !important;
+        font-size: 0.95rem !important;
+    }
+    
+    .compensation-card p {
+        color: #21314d !important;
+        margin: 0.2rem 0 !important;
+        line-height: 1.4 !important;
+        font-size: 0.9rem !important;
+    }
+    
+    .compensation-card strong {
+        color: #21314d !important;
+    }
+    
+    .compensation-card li {
+        color: #21314d !important;
+    }
+    
+    .compensation-card hr {
+        border-color: #879EC3 !important;
+        margin: 0.5rem 0 !important;
+    }
+    
+    .compensation-card .subtitle {
+        color: #4a5568 !important;
+        font-style: italic;
+        font-size: 0.85rem !important;
+    }
+    
+    .compensation-card .or-text {
+        color: #09396C !important;
+        text-align: center;
+        margin: 0.5rem 0 !important;
+        font-weight: 600;
     }
     
     .highlight-box {
         background: #CFDCE9;
         border-radius: 8px;
         padding: 1rem 1.5rem;
-        margin: 1rem 0;
-        border: 2px solid #879EC3;
+        margin: 0.5rem 0;
+        border-left: 5px solid #CC4628;
+        height: 120px;
+    }
+    
+    .highlight-box h4 {
+        color: #21314d !important;
+        margin: 0 !important;
+    }
+    
+    .highlight-box p {
+        color: #21314d !important;
+        margin: 0.5rem 0 0 0 !important;
     }
     
     .area-tag {
@@ -112,7 +195,40 @@ st.markdown("""
         color: #879EC3;
         font-weight: 600;
     }
+    
+    .cta-box {
+        text-align: center;
+        padding: 2rem;
+        background: #CFDCE9;
+        border-radius: 12px;
+    }
+    
+    .cta-box h3 {
+        color: #21314d !important;
+        margin-top: 0 !important;
+    }
+    
+    .cta-box p {
+        color: #4a5568 !important;
+        margin-bottom: 0;
+    }
 </style>
+""", unsafe_allow_html=True)
+
+# Top Right Logo
+def load_logo_base64(image_path):
+    with open(image_path, "rb") as img_file:
+        return base64.b64encode(img_file.read()).decode()
+
+logo_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), "resources", "Mines-Logo-triangle-blue.webp")
+logo_b64 = load_logo_base64(logo_path)
+
+st.markdown(f"""
+    <div style="display: flex; justify-content: flex-end; align-items: center; padding: 0.5rem 0; margin-bottom: 0.5rem;">
+        <img src="data:image/webp;base64,{logo_b64}"
+             alt="Colorado School of Mines"
+             style="max-height: 60px; width: auto; object-fit: contain;">
+    </div>
 """, unsafe_allow_html=True)
 
 # Sidebar
@@ -174,8 +290,8 @@ for i, (icon, title, desc) in enumerate(areas):
     with col1 if i < 3 else col2:
         st.markdown(f"""
         <div class="highlight-box">
-            <h4 style="margin: 0;">{icon} {title}</h4>
-            <p style="margin: 0.5rem 0 0 0; color: #75757D; font-size: 0.95rem;">{desc}</p>
+            <h4>{icon} {title}</h4>
+            <p>{desc}</p>
         </div>
         """, unsafe_allow_html=True)
 
@@ -202,57 +318,62 @@ col1, col2 = st.columns(2)
 with col1:
     st.markdown("""
     <div class="compensation-card">
-        <h3 style="margin-top: 0;">💻 Self-Paced (On-Demand) Courses</h3>
-        <hr style="border-color: #879EC3; margin: 1rem 0;">
-        <h4 style="color: #879EC3 !important; margin: 0;">Option A: Revenue Share</h4>
-        <p style="font-size: 1.1rem;"><strong>$250</strong> per learning hour created</p>
-        <p style="margin-bottom: 1rem;"><strong>+ 20%</strong> of net revenue share</p>
-        <div class="or-divider" style="color: #879EC3;">— OR —</div>
-        <h4 style="color: #879EC3 !important; margin: 0;">Option B: Flat Rate</h4>
-        <p style="font-size: 1.1rem; margin-bottom: 0;"><strong>$750</strong> per learning hour created</p>
+        <h3>💻 Self-Paced (On-Demand) Courses</h3>
+        <hr>
+        <h4>Option A: Revenue Share</h4>
+        <p><strong>$250</strong> per learning hour created</p>
+        <p><strong>+ 20%</strong> of net revenue share</p>
+        <p class="or-text">— OR —</p>
+        <h4>Option B: Flat Rate</h4>
+        <p><strong>$750</strong> per learning hour created</p>
     </div>
     """, unsafe_allow_html=True)
 
 with col2:
     st.markdown("""
     <div class="compensation-card">
-        <h3 style="margin-top: 0;">👨‍🏫 Online Facilitated Courses</h3>
-        <hr style="border-color: #879EC3; margin: 1rem 0;">
-        <p style="color: #879EC3 !important; font-style: italic;">Requires active instructor participation throughout the course each time it is taught.</p>
-        <p style="font-size: 1.1rem;"><strong>$2,500</strong> per teaching day</p>
-        <p style="font-size: 0.95rem;">e.g., a two-day course = $5,000</p>
-        <p style="font-size: 1.1rem;"><strong>+ $1,250</strong> preparation fee per teaching day</p>
-        <p style="font-size: 1.1rem; margin-bottom: 0;"><strong>+ 20%</strong> of net revenue share</p>
+        <h3>👨‍🏫 Online Facilitated Courses</h3>
+        <hr>
+        <p class="subtitle">Requires active instructor participation throughout the course each time it is taught.</p>
+        <p><strong>$2,500</strong> per teaching day</p>
+        <p class="subtitle">e.g., a two-day course = $5,000</p>
+        <p><strong>+ $1,250</strong> preparation fee per teaching day</p>
+        <p><strong>+ 20%</strong> of net revenue share</p>
     </div>
     """, unsafe_allow_html=True)
 
-# Example Calculation
-with st.expander("📊 See Example Compensation Calculations"):
-    st.markdown("### Self-Paced Course Example")
-    st.markdown("**Scenario:** Creating a 10-hour self-paced course")
-    
-    calc_col1, calc_col2 = st.columns(2)
-    with calc_col1:
-        st.markdown("""
-        **Option A (with revenue share):**
-        - Upfront: 10 hours × $250 = **$2,500**
-        - Plus: 20% of ongoing net revenue
-        """)
-    with calc_col2:
-        st.markdown("""
-        **Option B (flat rate):**
-        - Total: 10 hours × $750 = **$7,500**
-        - No additional revenue share
-        """)
-    
-    st.markdown("---")
-    st.markdown("### Facilitated Course Example")
-    st.markdown("**Scenario:** Teaching a 3-day facilitated course")
+# Example Calculations
+st.markdown("### Example Compensation Calculations")
+
+col1, col2 = st.columns(2)
+
+with col1:
     st.markdown("""
-    - Teaching: 3 days × $2,500 = **$7,500**
-    - Preparation: 3 days × $1,250 = **$3,750**
-    - **Total upfront: $11,250** + 20% of net revenue
-    """)
+    <div class="compensation-card">
+        <h3>Self-Paced Course Example</h3>
+        <hr>
+        <p><strong>Scenario:</strong> Creating a 10-hour self-paced course</p>
+        <h4>Option A (with revenue share):</h4>
+        <p>• Upfront: 10 hours × $250 = <strong>$2,500</strong></p>
+        <p>• Plus: 20% of ongoing net revenue</p>
+        <h4>Option B (flat rate):</h4>
+        <p>• Total: 10 hours × $750 = <strong>$7,500</strong></p>
+        <p>• No additional revenue share</p>
+    </div>
+    """, unsafe_allow_html=True)
+
+with col2:
+    st.markdown("""
+    <div class="compensation-card">
+        <h3>Facilitated Course Example</h3>
+        <hr>
+        <p><strong>Scenario:</strong> Teaching a 3-day facilitated course</p>
+        <p>• Teaching: 3 days × $2,500 = <strong>$7,500</strong></p>
+        <p>• Preparation: 3 days × $1,250 = <strong>$3,750</strong></p>
+        <p class="or-text" style="margin-top: 1rem;"><strong>Total upfront: $11,250</strong></p>
+        <p>+ 20% of net revenue</p>
+    </div>
+    """, unsafe_allow_html=True)
 
 # CTA
 st.markdown("---")
@@ -261,8 +382,8 @@ st.markdown("## Ready to Share Your Expertise?")
 col1, col2, col3 = st.columns([1, 2, 1])
 with col2:
     st.markdown("""
-    <div style="text-align: center; padding: 2rem; background: #CFDCE9; border-radius: 12px;">
-        <h3 style="margin-top: 0;">Apply to Become an SME</h3>
+    <div class="cta-box">
+        <h3>Apply to Become an SME</h3>
         <p>Join Colorado School of Mines in shaping the future of professional education.</p>
     </div>
     """, unsafe_allow_html=True)

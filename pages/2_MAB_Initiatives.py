@@ -1,6 +1,7 @@
 import streamlit as st
 import json
 import os
+import base64
 from datetime import datetime
 
 st.set_page_config(
@@ -38,13 +39,39 @@ st.markdown("""
     [data-testid="stSidebar"] { background-color: #21314d; }
     [data-testid="stSidebar"] * { color: #FFFFFF !important; }
     
+    /* Hide sidebar collapse/expand button text */
+    [data-testid="stSidebarCollapseButton"] button,
+    [data-testid="collapsedControl"] button {
+        font-size: 0 !important;
+        color: transparent !important;
+    }
+    
+    [data-testid="stSidebarCollapseButton"] button span,
+    [data-testid="collapsedControl"] button span {
+        font-size: 0 !important;
+        visibility: hidden !important;
+    }
+    
     .initiative-card {
         background: linear-gradient(135deg, #FFFFFF 0%, #CFDCE9 100%);
         border-radius: 12px;
         padding: 1.5rem;
-        margin: 1rem 0;
+        margin: 0.5rem 0;
         border-left: 5px solid #CC4628;
         box-shadow: 0 4px 6px rgba(33, 49, 77, 0.1);
+    }
+    
+    .initiative-card p, .initiative-card li {
+        color: #21314d !important;
+    }
+    
+    .initiative-card h4 {
+        color: #21314d !important;
+        margin-top: 0 !important;
+    }
+    
+    .initiative-card strong {
+        color: #21314d !important;
     }
     
     .number-badge {
@@ -68,6 +95,64 @@ st.markdown("""
         border-radius: 20px;
         margin: 0.2rem;
         font-size: 0.85rem;
+    }
+    
+    /* Cards with light background and dark text */
+    .dark-card {
+        background: #CFDCE9;
+        padding: 1.5rem;
+        border-radius: 12px;
+        height: 200px;
+        border-left: 5px solid #CC4628;
+    }
+    
+    .dark-card h4 {
+        color: #21314d !important;
+        margin-top: 0 !important;
+    }
+    
+    .dark-card p {
+        color: #21314d !important;
+    }
+    
+    .dark-card strong {
+        color: #21314d !important;
+    }
+    
+    /* Light cards with dark text */
+    .light-card {
+        background: #CFDCE9;
+        padding: 1rem;
+        border-radius: 8px;
+        margin: 0.5rem 0;
+        height: 120px;
+        border-left: 5px solid #CC4628;
+    }
+    
+    .light-card h4 {
+        color: #21314d !important;
+        margin: 0 !important;
+    }
+    
+    .light-card p {
+        color: #21314d !important;
+        margin: 0.5rem 0 0 0 !important;
+    }
+    
+    /* Feedback card styling */
+    .feedback-item {
+        background: #CFDCE9;
+        padding: 0.75rem 1rem;
+        border-radius: 8px;
+        margin: 0.5rem 0;
+    }
+    
+    .feedback-item strong {
+        color: #21314d !important;
+    }
+    
+    .feedback-item span {
+        color: #4a5568 !important;
     }
     
     .stButton > button {
@@ -123,6 +208,22 @@ def save_json_data(filepath, data):
     os.makedirs(os.path.dirname(filepath), exist_ok=True)
     with open(filepath, "w") as f:
         json.dump(data, f, indent=2)
+
+# Top Right Logo
+def load_logo_base64(image_path):
+    with open(image_path, "rb") as img_file:
+        return base64.b64encode(img_file.read()).decode()
+
+logo_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), "resources", "Mines-Logo-triangle-blue.webp")
+logo_b64 = load_logo_base64(logo_path)
+
+st.markdown(f"""
+    <div style="display: flex; justify-content: flex-end; align-items: center; padding: 0.5rem 0; margin-bottom: 0.5rem;">
+        <img src="data:image/webp;base64,{logo_b64}"
+             alt="Colorado School of Mines"
+             style="max-height: 60px; width: auto; object-fit: contain;">
+    </div>
+""", unsafe_allow_html=True)
 
 # Sidebar
 with st.sidebar:
@@ -299,9 +400,9 @@ with tab2:
     for i, (icon, title, desc) in enumerate(channels):
         with col1 if i % 2 == 0 else col2:
             st.markdown(f"""
-            <div style="background: #CFDCE9; padding: 1rem; border-radius: 8px; margin: 0.5rem 0;">
-                <h4 style="margin: 0;">{icon} {title}</h4>
-                <p style="margin: 0.5rem 0 0 0; color: #75757D; font-size: 0.9rem;">{desc}</p>
+            <div class="light-card">
+                <h4>{icon} {title}</h4>
+                <p>{desc}</p>
             </div>
             """, unsafe_allow_html=True)
     
@@ -335,18 +436,18 @@ with tab3:
     
     with col1:
         st.markdown("""
-        <div style="background: #21314d; padding: 1.5rem; border-radius: 12px; color: #FFFFFF;">
-            <h4 style="color: #FFFFFF !important; margin-top: 0;">📚 Course Development</h4>
-            <p style="color: #CFDCE9 !important;">Julian will work with Sam Spiegel and course SMEs to use AI 
+        <div class="dark-card">
+            <h4>📚 Course Development</h4>
+            <p>Julian will work with Sam Spiegel and course SMEs to use AI 
             to develop course AI teaching assistants.</p>
         </div>
         """, unsafe_allow_html=True)
     
     with col2:
         st.markdown("""
-        <div style="background: #21314d; padding: 1.5rem; border-radius: 12px; color: #FFFFFF;">
-            <h4 style="color: #FFFFFF !important; margin-top: 0;">💰 Sponsorship</h4>
-            <p style="color: #CFDCE9 !important;">Julian will sponsor the initial overhead cost of using AI 
+        <div class="dark-card">
+            <h4>💰 Sponsorship</h4>
+            <p>Julian will sponsor the initial overhead cost of using AI 
             for course development and deployment.</p>
         </div>
         """, unsafe_allow_html=True)
@@ -366,60 +467,174 @@ with tab4:
     st.markdown("## 4. Alumni Course Feedback")
     st.markdown("""
     <div class="initiative-card">
-        <p style="margin: 0;">Help shape the future of ProEd by sharing your ideas for new courses. 
-        What skills would help you in your career? What topics should Mines offer?</p>
+        <p style="margin: 0;">Help shape the future of ProEd! Share feedback on existing courses, 
+        suggest new course topics, or provide general feedback about the program.</p>
     </div>
     """, unsafe_allow_html=True)
     
     with st.form("course_feedback_form"):
-        st.markdown("### 💡 Submit Course Ideas")
+        # Feedback Type Selection
+        st.markdown("### 💬 Submit Your Feedback")
         
-        course_topic = st.text_input(
-            "Course Topic Suggestion *",
-            placeholder="e.g., Machine Learning for Oil & Gas Applications"
+        feedback_type = st.radio(
+            "What type of feedback would you like to share? *",
+            ["Feedback on an existing course", "Suggest a new course", "General feedback about ProEd"],
+            horizontal=True
         )
         
-        course_description = st.text_area(
-            "Describe what this course should cover",
-            placeholder="What specific skills or knowledge should the course teach? Who would benefit from it?",
-            height=100
+        st.markdown("---")
+        
+        # Conditional fields based on feedback type
+        if feedback_type == "Feedback on an existing course":
+            st.markdown("#### 📚 Existing Course Feedback")
+            
+            course_name = st.text_input(
+                "Course Name *",
+                placeholder="e.g., Introduction to Geothermal Energy"
+            )
+            
+            course_link = st.text_input(
+                "Course Link (if available)",
+                placeholder="https://proed.mines.edu/courses/..."
+            )
+            
+            col1, col2 = st.columns(2)
+            with col1:
+                rating = st.select_slider(
+                    "Overall Rating",
+                    options=["1 - Poor", "2 - Fair", "3 - Good", "4 - Very Good", "5 - Excellent"],
+                    value="3 - Good"
+                )
+            with col2:
+                would_recommend = st.selectbox(
+                    "Would you recommend this course?",
+                    ["Yes, definitely", "Yes, with reservations", "Not sure", "No"]
+                )
+            
+            feedback_details = st.text_area(
+                "Your Feedback *",
+                placeholder="What did you like? What could be improved? Was the content relevant to your work?",
+                height=120
+            )
+            
+            # Hidden fields for this type
+            course_topic = course_name
+            course_description = feedback_details
+            format_preference = "Existing course feedback"
+            urgency = "N/A"
+            
+        elif feedback_type == "Suggest a new course":
+            st.markdown("#### 💡 New Course Suggestion")
+            
+            course_topic = st.text_input(
+                "Course Topic *",
+                placeholder="e.g., Machine Learning for Oil & Gas Applications"
+            )
+            
+            course_link = st.text_input(
+                "Reference Link (optional)",
+                placeholder="Link to similar course or resource for reference"
+            )
+            
+            course_description = st.text_area(
+                "Course Description",
+                placeholder="What specific skills or knowledge should the course teach? Who would benefit from it?",
+                height=100
+            )
+            
+            col1, col2 = st.columns(2)
+            with col1:
+                format_preference = st.selectbox(
+                    "Preferred Format",
+                    ["No preference", "Self-paced online", "Online facilitated", "In-person", "Hybrid"]
+                )
+            with col2:
+                urgency = st.selectbox(
+                    "How important is this topic?",
+                    ["Nice to have", "Important", "Critical for my career"]
+                )
+            
+            feedback_details = ""
+            course_name = ""
+            rating = ""
+            would_recommend = ""
+            
+        else:  # General feedback
+            st.markdown("#### 📝 General Feedback")
+            
+            feedback_category = st.selectbox(
+                "Feedback Category",
+                ["Program overall", "Website/Platform", "Course quality", "Pricing", "Support/Communication", "Other"]
+            )
+            
+            course_link = st.text_input(
+                "Related Link (optional)",
+                placeholder="Link to relevant page or resource"
+            )
+            
+            feedback_details = st.text_area(
+                "Your Feedback *",
+                placeholder="Share your thoughts, suggestions, or concerns about the ProEd program...",
+                height=150
+            )
+            
+            # Hidden fields for this type
+            course_topic = f"General Feedback: {feedback_category}"
+            course_description = feedback_details
+            format_preference = "General feedback"
+            urgency = "N/A"
+            course_name = ""
+            rating = ""
+            would_recommend = ""
+        
+        st.markdown("---")
+        
+        # Common fields
+        additional_comments = st.text_area(
+            "Additional Comments (optional)",
+            placeholder="Any other thoughts you'd like to share...",
+            height=80
         )
         
         col1, col2 = st.columns(2)
         with col1:
-            format_preference = st.selectbox(
-                "Preferred Format",
-                ["No preference", "Self-paced online", "Online facilitated", "In-person", "Hybrid"]
-            )
+            feedback_name = st.text_input("Your Name (optional)", placeholder="Your name")
         with col2:
-            urgency = st.selectbox(
-                "How important is this topic?",
-                ["Nice to have", "Important", "Critical for my career"]
-            )
-        
-        additional_comments = st.text_area(
-            "Additional Comments",
-            placeholder="Any other thoughts or suggestions...",
-            height=80
-        )
-        
-        feedback_name = st.text_input("Your Name (optional)", placeholder="Your name")
-        feedback_email = st.text_input("Your Email (optional)", placeholder="your.email@example.com")
+            feedback_email = st.text_input("Your Email (optional)", placeholder="your.email@example.com")
         
         feedback_submitted = st.form_submit_button("Submit Feedback", use_container_width=True)
         
         if feedback_submitted:
-            if not course_topic:
-                st.error("Please provide a course topic suggestion.")
-            else:
+            # Validation based on feedback type
+            is_valid = True
+            if feedback_type == "Feedback on an existing course":
+                if not course_name or not feedback_details:
+                    st.error("Please provide the course name and your feedback.")
+                    is_valid = False
+            elif feedback_type == "Suggest a new course":
+                if not course_topic:
+                    st.error("Please provide a course topic suggestion.")
+                    is_valid = False
+            else:  # General feedback
+                if not feedback_details:
+                    st.error("Please provide your feedback.")
+                    is_valid = False
+            
+            if is_valid:
                 # Load existing feedback
                 feedback_data = load_json_data(COURSE_FEEDBACK_FILE)
                 
                 # Add new feedback
                 new_feedback = {
                     "id": len(feedback_data) + 1,
+                    "feedback_type": feedback_type,
                     "course_topic": course_topic,
+                    "course_name": course_name if 'course_name' in dir() else "",
+                    "course_link": course_link if 'course_link' in dir() else "",
                     "course_description": course_description,
+                    "feedback_details": feedback_details if 'feedback_details' in dir() else "",
+                    "rating": rating if 'rating' in dir() else "",
+                    "would_recommend": would_recommend if 'would_recommend' in dir() else "",
                     "format_preference": format_preference,
                     "urgency": urgency,
                     "additional_comments": additional_comments,
@@ -432,43 +647,69 @@ with tab4:
                 # Save to file
                 save_json_data(COURSE_FEEDBACK_FILE, feedback_data)
                 
-                st.success("✅ Thank you for your feedback! Your suggestion has been recorded.")
+                st.success("✅ Thank you for your feedback! Your input helps us improve ProEd.")
     
     # Display summary of feedback
     st.markdown("---")
-    st.markdown("### 📊 Course Interest Summary")
+    st.markdown("### 📊 Feedback Summary")
     
     feedback_data = load_json_data(COURSE_FEEDBACK_FILE)
     
     if feedback_data:
-        # Count submissions by urgency
+        # Count by feedback type
+        type_counts = {}
         urgency_counts = {}
         for fb in feedback_data:
-            u = fb.get("urgency", "Nice to have")
-            urgency_counts[u] = urgency_counts.get(u, 0) + 1
+            ft = fb.get("feedback_type", "Unknown")
+            type_counts[ft] = type_counts.get(ft, 0) + 1
+            u = fb.get("urgency", "N/A")
+            if u != "N/A":
+                urgency_counts[u] = urgency_counts.get(u, 0) + 1
         
-        col1, col2, col3 = st.columns(3)
+        col1, col2, col3, col4 = st.columns(4)
         with col1:
-            st.metric("Total Suggestions", len(feedback_data))
+            st.metric("Total Feedback", len(feedback_data))
         with col2:
-            critical = urgency_counts.get("Critical for my career", 0)
-            st.metric("Critical Topics", critical)
+            existing = type_counts.get("Feedback on an existing course", 0)
+            st.metric("Course Reviews", existing)
         with col3:
-            important = urgency_counts.get("Important", 0)
-            st.metric("Important Topics", important)
+            new_suggestions = type_counts.get("Suggest a new course", 0)
+            st.metric("New Suggestions", new_suggestions)
+        with col4:
+            general = type_counts.get("General feedback about ProEd", 0)
+            st.metric("General Feedback", general)
         
-        # Show recent topics
-        st.markdown("#### Recent Course Suggestions")
+        # Show recent feedback
+        st.markdown("#### Recent Feedback")
         recent = feedback_data[-5:][::-1]  # Last 5, reversed
         for fb in recent:
+            fb_type = fb.get('feedback_type', 'Unknown')
+            if fb_type == "Feedback on an existing course":
+                icon = "📚"
+                title = fb.get('course_name', 'Unnamed Course')
+                subtitle = fb.get('rating', '')
+            elif fb_type == "Suggest a new course":
+                icon = "💡"
+                title = fb.get('course_topic', 'Untitled')
+                subtitle = fb.get('urgency', '')
+            else:
+                icon = "📝"
+                title = fb.get('course_topic', 'General Feedback')
+                subtitle = ""
+            
+            link_html = ""
+            if fb.get('course_link'):
+                link_html = f' <a href="{fb.get("course_link")}" target="_blank" style="font-size: 0.8rem;">🔗 Link</a>'
+            
             st.markdown(f"""
             <div style="background: #CFDCE9; padding: 0.75rem 1rem; border-radius: 8px; margin: 0.5rem 0;">
-                <strong>{fb.get('course_topic', 'Untitled')}</strong>
-                <span style="color: #75757D; font-size: 0.85rem;"> — {fb.get('format_preference', 'No preference')}</span>
+                <strong>{icon} {title}</strong>
+                <span style="color: #75757D; font-size: 0.85rem;"> — {subtitle}</span>
+                {link_html}
             </div>
             """, unsafe_allow_html=True)
     else:
-        st.info("No course suggestions yet. Be the first to share your ideas!")
+        st.info("No feedback submitted yet. Be the first to share your thoughts!")
 
 # Footer
 st.markdown("---")

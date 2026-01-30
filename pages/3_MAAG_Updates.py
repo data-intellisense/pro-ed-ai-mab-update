@@ -1,4 +1,6 @@
 import streamlit as st
+import os
+import base64
 
 st.set_page_config(
     page_title="MAAG Updates | Mines AI/ML",
@@ -35,6 +37,19 @@ st.markdown("""
     [data-testid="stSidebar"] { background-color: #21314d; }
     [data-testid="stSidebar"] * { color: #FFFFFF !important; }
     
+    /* Hide sidebar collapse/expand button text */
+    [data-testid="stSidebarCollapseButton"] button,
+    [data-testid="collapsedControl"] button {
+        font-size: 0 !important;
+        color: transparent !important;
+    }
+    
+    [data-testid="stSidebarCollapseButton"] button span,
+    [data-testid="collapsedControl"] button span {
+        font-size: 0 !important;
+        visibility: hidden !important;
+    }
+    
     .hero-banner {
         background: linear-gradient(135deg, #21314d 0%, #09396C 100%);
         padding: 2.5rem;
@@ -43,33 +58,47 @@ st.markdown("""
         text-align: center;
     }
     
-    .hero-banner h1, .hero-banner p {
+    .hero-banner h1, .hero-banner h2, .hero-banner h3, .hero-banner h4,
+    .hero-banner p, .hero-banner span, .hero-banner li, .hero-banner strong,
+    .hero-banner a, .hero-banner div {
         color: #FFFFFF !important;
     }
     
     .stat-card {
-        background: #21314d;
+        background: #CFDCE9;
         border-radius: 12px;
         padding: 1.5rem;
         text-align: center;
+        height: 180px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        border-left: 5px solid #CC4628;
     }
     
-    .stat-card h2, .stat-card p {
-        color: #FFFFFF !important;
-        margin: 0;
+    .stat-card h2, .stat-card h3 {
+        color: #21314d !important;
+        margin: 0 !important;
+    }
+    
+    .stat-card p {
+        color: #4a5568 !important;
+        margin: 0.25rem 0 0 0 !important;
     }
     
     .stat-number {
         font-size: 3rem !important;
         font-weight: 700 !important;
         color: #CC4628 !important;
+        margin: 0 !important;
     }
     
     .mentor-area-card {
         background: linear-gradient(135deg, #FFFFFF 0%, #CFDCE9 100%);
         border-radius: 12px;
         padding: 1.5rem;
-        margin: 0.75rem 0;
+        margin: 0.5rem 0;
         border-left: 5px solid #CC4628;
         box-shadow: 0 4px 6px rgba(33, 49, 77, 0.1);
         transition: transform 0.2s ease;
@@ -77,6 +106,23 @@ st.markdown("""
     
     .mentor-area-card:hover {
         transform: translateX(5px);
+    }
+    
+    .mentor-area-card h4 {
+        color: #21314d !important;
+        margin-top: 0 !important;
+    }
+    
+    .mentor-area-card p {
+        color: #21314d !important;
+    }
+    
+    .mentor-area-card strong {
+        color: #21314d !important;
+    }
+    
+    .mentor-area-card li {
+        color: #21314d !important;
     }
     
     .icon-circle {
@@ -110,35 +156,106 @@ st.markdown("""
         border-radius: 50%;
     }
     
+    .timeline-item h4 {
+        color: #21314d !important;
+        margin-top: 0 !important;
+    }
+    
+    .timeline-item p {
+        color: #4a5568 !important;
+    }
+    
     .highlight-stat {
         background: #CFDCE9;
         padding: 1rem;
         border-radius: 8px;
         text-align: center;
+        height: 140px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        border-left: 5px solid #CC4628;
+    }
+    
+    .highlight-stat p {
+        color: #21314d !important;
+        margin: 0.5rem 0 0 0 !important;
+    }
+    
+    /* CTA cards with equal height */
+    .cta-card {
+        background: #CFDCE9;
+        padding: 2rem;
+        border-radius: 12px;
+        text-align: center;
+        height: 220px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        border-left: 5px solid #CC4628;
+    }
+    
+    .cta-card h3 {
+        color: #21314d !important;
+        margin-top: 0 !important;
+    }
+    
+    .cta-card p {
+        color: #21314d !important;
+    }
+    
+    /* Info card with light background */
+    .dark-info-card {
+        background: #CFDCE9;
+        padding: 1.5rem;
+        border-radius: 12px;
+        height: 100%;
+        border-left: 5px solid #CC4628;
+    }
+    
+    .dark-info-card h4 {
+        color: #21314d !important;
+        margin-top: 0 !important;
+    }
+    
+    .dark-info-card p {
+        color: #21314d !important;
+    }
+    
+    .dark-info-card strong {
+        color: #CC4628 !important;
     }
     
     a { color: #CC4628 !important; }
 </style>
 """, unsafe_allow_html=True)
 
+# Top Right Logo
+def load_logo_base64(image_path):
+    with open(image_path, "rb") as img_file:
+        return base64.b64encode(img_file.read()).decode()
+
+logo_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), "resources", "Mines-Logo-triangle-blue.webp")
+logo_b64 = load_logo_base64(logo_path)
+
+st.markdown(f"""
+    <div style="display: flex; justify-content: flex-end; align-items: center; padding: 0.5rem 0; margin-bottom: 0.5rem;">
+        <img src="data:image/webp;base64,{logo_b64}"
+             alt="Colorado School of Mines"
+             style="max-height: 60px; width: auto; object-fit: contain;">
+    </div>
+""", unsafe_allow_html=True)
+
 # Sidebar
 with st.sidebar:
-    st.image("https://brand.mines.edu/wp-content/uploads/sites/425/2023/03/Mines-Logo-triangle-blue.png", width=80)
-    st.markdown("### MAAG")
-    st.markdown("Mines AI/ML Affinity Group")
-    st.divider()
-    st.markdown("#### About MAAG")
-    st.markdown("""
-    The Mines AI/ML Affinity Group connects 
-    alumni working in artificial intelligence 
-    and machine learning with current students.
-    """)
+    st.markdown("### Life Long Learning & Development Group")
 
 # Hero Banner
 st.markdown("""
 <div class="hero-banner">
     <h1 style="margin-bottom: 0.5rem;">🤖 Mines AI/ML Affinity Group</h1>
-    <p style="font-size: 1.2rem; margin-bottom: 0;">Student Mentoring Initiative | Spring 2026</p>
+    <p style="font-size: 1.1rem; margin-bottom: 0.75rem;">The Mines AI/ML Affinity Group connects alumni working in artificial intelligence and machine learning with current students.</p>
+    <p style="font-size: 1rem; margin-bottom: 0; opacity: 0.9;">Student Mentoring Initiative | Spring 2026</p>
 </div>
 """, unsafe_allow_html=True)
 
@@ -151,8 +268,8 @@ with col1:
     st.markdown("""
     <div class="stat-card">
         <p class="stat-number">10+</p>
-        <p style="font-size: 1.1rem;">Alumni Mentors</p>
-        <p style="font-size: 0.9rem; color: #879EC3 !important;">Working in AI/ML</p>
+        <p>Alumni Mentors</p>
+        <p>Working in AI/ML</p>
     </div>
     """, unsafe_allow_html=True)
 
@@ -160,8 +277,8 @@ with col2:
     st.markdown("""
     <div class="stat-card">
         <p class="stat-number">5</p>
-        <p style="font-size: 1.1rem;">Mentoring Areas</p>
-        <p style="font-size: 0.9rem; color: #879EC3 !important;">Career to Technical</p>
+        <p>Mentoring Areas</p>
+        <p>Career to Technical</p>
     </div>
     """, unsafe_allow_html=True)
 
@@ -169,8 +286,8 @@ with col3:
     st.markdown("""
     <div class="stat-card">
         <p class="stat-number">Spring '26</p>
-        <p style="font-size: 1.1rem;">Launch Date</p>
-        <p style="font-size: 0.9rem; color: #879EC3 !important;">Now Recruiting</p>
+        <p>Launch Date</p>
+        <p>Now Recruiting</p>
     </div>
     """, unsafe_allow_html=True)
 
@@ -178,14 +295,12 @@ with col3:
 st.markdown("## About the Mentoring Program")
 
 st.markdown("""
-<div style="background: linear-gradient(135deg, #FFFFFF 0%, #CFDCE9 100%); 
-            padding: 2rem; border-radius: 12px; margin: 1rem 0;
-            border-left: 5px solid #CC4628;">
+<div class="mentor-area-card">
     <p style="font-size: 1.1rem; margin: 0;">
     The Mines AI/ML Affinity Group (MAAG) has invited <strong>10+ alumni</strong> currently working in the AI/ML field 
     to serve as mentors for Mines students starting <strong>Spring 2026</strong>.
     </p>
-    <p style="margin: 1rem 0 0 0; color: #75757D;">
+    <p style="margin: 1rem 0 0 0;">
     This initiative connects students with industry professionals who can provide guidance, 
     share real-world experience, and help shape the next generation of AI/ML practitioners.
     </p>
@@ -233,11 +348,17 @@ col1, col2 = st.columns(2)
 
 for i, area in enumerate(mentoring_areas):
     with col1 if i % 2 == 0 else col2:
-        with st.expander(f"{area['icon']} **{area['title']}**", expanded=i < 2):
-            st.markdown(area['description'])
-            st.markdown("**Example topics:**")
-            for ex in area['examples']:
-                st.markdown(f"- {ex}")
+        examples_html = "".join([f"<li>{ex}</li>" for ex in area['examples']])
+        st.markdown(f"""
+        <div class="mentor-area-card">
+            <h4>{area['icon']} {area['title']}</h4>
+            <p>{area['description']}</p>
+            <p><strong>Example topics:</strong></p>
+            <ul style="margin: 0.5rem 0 0 1.2rem; padding: 0;">
+                {examples_html}
+            </ul>
+        </div>
+        """, unsafe_allow_html=True)
 
 # How It Works
 st.markdown("## How the Program Works")
@@ -247,34 +368,34 @@ col1, col2 = st.columns([2, 1])
 with col1:
     st.markdown("""
     <div class="timeline-item">
-        <h4 style="margin-top: 0;">1. Mentor Recruitment</h4>
-        <p style="color: #75757D;">MAAG identifies and invites alumni working in AI/ML to participate as mentors.</p>
+        <h4>1. Mentor Recruitment</h4>
+        <p>MAAG identifies and invites alumni working in AI/ML to participate as mentors.</p>
     </div>
     
     <div class="timeline-item">
-        <h4 style="margin-top: 0;">2. Student Sign-Up</h4>
-        <p style="color: #75757D;">Students express interest and indicate which mentoring areas they need help with.</p>
+        <h4>2. Student Sign-Up</h4>
+        <p>Students express interest and indicate which mentoring areas they need help with.</p>
     </div>
     
     <div class="timeline-item">
-        <h4 style="margin-top: 0;">3. Matching</h4>
-        <p style="color: #75757D;">MAAG facilitates introductions between students and mentors based on interests and goals.</p>
+        <h4>3. Matching</h4>
+        <p>MAAG facilitates introductions between students and mentors based on interests and goals.</p>
     </div>
     
     <div class="timeline-item">
-        <h4 style="margin-top: 0;">4. Mentoring Sessions</h4>
-        <p style="color: #75757D;">Mentors and students connect for guidance, advice, and professional development.</p>
+        <h4>4. Mentoring Sessions</h4>
+        <p>Mentors and students connect for guidance, advice, and professional development.</p>
     </div>
     """, unsafe_allow_html=True)
 
 with col2:
     st.markdown("""
-    <div style="background: #21314d; padding: 1.5rem; border-radius: 12px; height: 100%;">
-        <h4 style="color: #FFFFFF !important; margin-top: 0;">🗓️ Timeline</h4>
-        <p style="color: #CFDCE9 !important; font-size: 0.9rem;">
-        <strong style="color: #CC4628;">Now:</strong> Recruiting mentors<br><br>
-        <strong style="color: #CC4628;">Feb 2026:</strong> Mentor onboarding<br><br>
-        <strong style="color: #CC4628;">Spring 2026:</strong> Program launch
+    <div class="dark-info-card">
+        <h4>🗓️ Timeline</h4>
+        <p>
+        <strong>Now:</strong> Recruiting mentors<br><br>
+        <strong>Feb 2026:</strong> Mentor onboarding<br><br>
+        <strong>Spring 2026:</strong> Program launch
         </p>
     </div>
     """, unsafe_allow_html=True)
@@ -286,12 +407,10 @@ col1, col2 = st.columns(2)
 
 with col1:
     st.markdown("""
-    <div style="background: #CFDCE9; padding: 2rem; border-radius: 12px; text-align: center;">
-        <h3 style="margin-top: 0;">🧑‍🏫 Alumni: Become a Mentor</h3>
+    <div class="cta-card">
+        <h3>🧑‍🏫 Alumni: Become a Mentor</h3>
         <p>Share your AI/ML expertise with the next generation of Mines engineers and scientists.</p>
-        <p style="margin-bottom: 0; font-size: 0.9rem; color: #75757D;">
-        Time commitment: Flexible, typically 1-2 hours/month
-        </p>
+        <p style="font-size: 0.9rem;">Time commitment: Flexible, typically 1-2 hours/month</p>
     </div>
     """, unsafe_allow_html=True)
     if st.button("Volunteer as Mentor", use_container_width=True, key="mentor_btn"):
@@ -299,12 +418,10 @@ with col1:
 
 with col2:
     st.markdown("""
-    <div style="background: #CFDCE9; padding: 2rem; border-radius: 12px; text-align: center;">
-        <h3 style="margin-top: 0;">🎓 Students: Find a Mentor</h3>
+    <div class="cta-card">
+        <h3>🎓 Students: Find a Mentor</h3>
         <p>Connect with alumni who can help guide your AI/ML career journey.</p>
-        <p style="margin-bottom: 0; font-size: 0.9rem; color: #75757D;">
-        Available to all Mines students interested in AI/ML
-        </p>
+        <p style="font-size: 0.9rem;">Available to all Mines students interested in AI/ML</p>
     </div>
     """, unsafe_allow_html=True)
     if st.button("Request a Mentor", use_container_width=True, key="student_btn"):
@@ -324,8 +441,8 @@ for col, (stat, desc) in zip(cols, impact_stats):
     with col:
         st.markdown(f"""
         <div class="highlight-stat">
-            <p style="font-size: 2rem; font-weight: 700; color: #CC4628 !important; margin: 0;">{stat}</p>
-            <p style="font-size: 0.85rem; color: #75757D; margin: 0.5rem 0 0 0;">{desc}</p>
+            <p class="stat-number" style="font-size: 2rem;">{stat}</p>
+            <p>{desc}</p>
         </div>
         """, unsafe_allow_html=True)
 
