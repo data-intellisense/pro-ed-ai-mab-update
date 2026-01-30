@@ -1,255 +1,266 @@
 """
-MAAG (Mines AI/ML Affinity Group) Updates Page
-Information about AI/ML community and mentoring programs.
+Mines AI/ML Affinity Group (MAAG) Updates Page
+Student mentoring initiatives and AI/ML community building
 """
 import streamlit as st
-from pathlib import Path
-import sys
-
-st.set_page_config(
-    page_title="MAAG Updates | Mines",
-    page_icon="🧠",
-    layout="wide"
+from utils import (
+    apply_mines_styling,
+    render_sidebar,
+    MINES_COLORS,
 )
 
-st.title("🧠 Mines AI/ML Affinity Group (MAAG)")
-st.markdown("*Connecting AI/ML professionals with Mines students*")
+# Page configuration
+st.set_page_config(
+    page_title="MAAG Updates | Mines ProEd",
+    page_icon="⛏️",
+    layout="wide",
+    initial_sidebar_state="expanded",
+)
 
-st.divider()
+# Apply Mines branding
+apply_mines_styling()
+render_sidebar()
 
-# Overview section
-st.markdown("""
-The **Mines AI/ML Affinity Group (MAAG)** brings together alumni and professionals 
-working in artificial intelligence and machine learning to support current students 
-and foster community within the Mines network.
-""")
+# Page Header
+st.markdown(
+    f"""
+    <div style="margin-bottom: 2rem;">
+        <h1 style="color: {MINES_COLORS['dark_blue']};">🤖 Mines AI/ML Affinity Group (MAAG)</h1>
+        <p style="color: {MINES_COLORS['text_muted']}; font-size: 1.1rem;">
+            Connecting AI/ML professionals with Mines students through mentorship
+        </p>
+    </div>
+    <div class="mines-divider"></div>
+    """,
+    unsafe_allow_html=True,
+)
 
-# Key metrics
-col1, col2, col3 = st.columns(3)
+# Hero Banner
+st.markdown(
+    f"""
+    <div style="background: linear-gradient(135deg, {MINES_COLORS['dark_blue']} 0%, {MINES_COLORS['earth_blue']} 100%);
+                padding: 3rem 2rem; border-radius: 16px; color: white; text-align: center; margin-bottom: 2rem;">
+        <div style="font-size: 4rem; margin-bottom: 1rem;">🎓🤝🤖</div>
+        <h2 style="color: white !important; margin-bottom: 1rem;">Student Mentorship Program</h2>
+        <p style="color: {MINES_COLORS['pale_blue']}; font-size: 1.2rem; max-width: 600px; margin: 0 auto;">
+            Building the next generation of AI/ML leaders through alumni mentorship
+        </p>
+    </div>
+    """,
+    unsafe_allow_html=True,
+)
+
+# Key Highlight
+st.markdown("## 🌟 Latest Initiative")
+
+col1, col2 = st.columns([2, 1])
 
 with col1:
-    st.metric(
-        label="Alumni Mentors",
-        value="10+",
-        delta="invited to mentor",
-        help="Alumni working in AI/ML invited to serve as student mentors"
+    st.markdown(
+        f"""
+        <div style="background-color: {MINES_COLORS['pale_blue']}; padding: 2rem; border-radius: 12px; 
+                    border-left: 6px solid {MINES_COLORS['colorado_red']};">
+            <h3 style="color: {MINES_COLORS['dark_blue']} !important; margin-bottom: 1rem;">
+                Spring 2026 Mentorship Launch
+            </h3>
+            <p style="color: {MINES_COLORS['text_dark']}; font-size: 1.1rem; line-height: 1.8; margin-bottom: 1rem;">
+                MAAG is excited to announce that we have invited <strong style="color: {MINES_COLORS['colorado_red']};">10+ alumni</strong> 
+                working in the AI/ML field to serve as mentors for Mines students starting <strong>Spring 2026</strong>.
+            </p>
+            <p style="color: {MINES_COLORS['text_muted']}; margin: 0;">
+                This initiative connects experienced professionals with students eager to learn about 
+                real-world AI/ML applications, career paths, and industry insights.
+            </p>
+        </div>
+        """,
+        unsafe_allow_html=True,
     )
 
 with col2:
-    st.metric(
-        label="Focus Area",
-        value="AI/ML",
-        help="Artificial Intelligence and Machine Learning"
+    st.markdown(
+        f"""
+        <div style="background: linear-gradient(135deg, {MINES_COLORS['dark_blue']} 0%, {MINES_COLORS['blaster_blue']} 100%);
+                    padding: 2rem; border-radius: 12px; text-align: center; color: white;">
+            <div style="font-size: 3.5rem; font-weight: 700; margin-bottom: 0.5rem;">10+</div>
+            <div style="font-size: 1.1rem; color: {MINES_COLORS['pale_blue']};">Alumni Mentors</div>
+            <div style="margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid rgba(255,255,255,0.2);">
+                <div style="font-size: 1.5rem; font-weight: 600;">Spring 2026</div>
+                <div style="font-size: 0.9rem; color: {MINES_COLORS['pale_blue']};">Program Launch</div>
+            </div>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+
+# Program Benefits
+st.markdown("<div class='mines-divider'></div>", unsafe_allow_html=True)
+st.markdown("## 💡 Program Benefits")
+
+col1, col2, col3 = st.columns(3)
+
+with col1:
+    st.markdown(
+        f"""
+        <div style="background-color: white; padding: 1.5rem; border-radius: 12px; 
+                    box-shadow: 0 4px 12px rgba(0,0,0,0.1); height: 280px;">
+            <div style="background-color: {MINES_COLORS['pale_blue']}; width: 60px; height: 60px; 
+                        border-radius: 50%; display: flex; align-items: center; justify-content: center;
+                        font-size: 1.75rem; margin-bottom: 1rem;">👨‍🎓</div>
+            <h4 style="color: {MINES_COLORS['dark_blue']} !important; margin-bottom: 0.75rem;">For Students</h4>
+            <ul style="color: {MINES_COLORS['text_dark']}; padding-left: 1.25rem; font-size: 0.9rem; line-height: 1.8;">
+                <li>Direct access to industry professionals</li>
+                <li>Career guidance and advice</li>
+                <li>Real-world project insights</li>
+                <li>Networking opportunities</li>
+            </ul>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+
+with col2:
+    st.markdown(
+        f"""
+        <div style="background-color: white; padding: 1.5rem; border-radius: 12px; 
+                    box-shadow: 0 4px 12px rgba(0,0,0,0.1); height: 280px;">
+            <div style="background-color: {MINES_COLORS['pale_blue']}; width: 60px; height: 60px; 
+                        border-radius: 50%; display: flex; align-items: center; justify-content: center;
+                        font-size: 1.75rem; margin-bottom: 1rem;">👨‍💼</div>
+            <h4 style="color: {MINES_COLORS['dark_blue']} !important; margin-bottom: 0.75rem;">For Mentors</h4>
+            <ul style="color: {MINES_COLORS['text_dark']}; padding-left: 1.25rem; font-size: 0.9rem; line-height: 1.8;">
+                <li>Give back to the Mines community</li>
+                <li>Shape future AI/ML talent</li>
+                <li>Stay connected with campus</li>
+                <li>Build leadership skills</li>
+            </ul>
+        </div>
+        """,
+        unsafe_allow_html=True,
     )
 
 with col3:
-    st.metric(
-        label="Initiative",
-        value="Active",
-        delta="ongoing",
-        help="Student mentoring program currently active"
+    st.markdown(
+        f"""
+        <div style="background-color: white; padding: 1.5rem; border-radius: 12px; 
+                    box-shadow: 0 4px 12px rgba(0,0,0,0.1); height: 280px;">
+            <div style="background-color: {MINES_COLORS['pale_blue']}; width: 60px; height: 60px; 
+                        border-radius: 50%; display: flex; align-items: center; justify-content: center;
+                        font-size: 1.75rem; margin-bottom: 1rem;">🏛️</div>
+            <h4 style="color: {MINES_COLORS['dark_blue']} !important; margin-bottom: 0.75rem;">For Mines</h4>
+            <ul style="color: {MINES_COLORS['text_dark']}; padding-left: 1.25rem; font-size: 0.9rem; line-height: 1.8;">
+                <li>Strengthen alumni connections</li>
+                <li>Enhance student experience</li>
+                <li>Industry-aligned education</li>
+                <li>Build AI/ML community</li>
+            </ul>
+        </div>
+        """,
+        unsafe_allow_html=True,
     )
 
-st.divider()
+# About MAAG
+st.markdown("<div class='mines-divider'></div>", unsafe_allow_html=True)
+st.markdown("## 🎯 About MAAG")
 
-# Main content in columns
-main_col1, main_col2 = st.columns([2, 1])
+col1, col2 = st.columns([3, 2])
 
-with main_col1:
-    st.header("🎓 Student Mentoring Initiative")
-    
-    st.markdown("""
-    MAAG has launched a mentoring program connecting Mines students with alumni 
-    who are actively working in the AI/ML field. This initiative provides students 
-    with valuable industry insights and career guidance.
-    """)
-    
-    with st.container(border=True):
-        st.subheader("Program Highlights")
-        
-        st.markdown("""
-        **🌟 Current Status:**
-        - **10+ alumni** working in AI/ML have been invited to serve as mentors
-        - Focus on providing real-world industry perspectives
-        - Supporting students in their AI/ML career journeys
-        
-        **🎯 Mentorship Goals:**
-        - Share industry experience and best practices
-        - Provide career guidance and networking opportunities
-        - Help students understand real-world AI/ML applications
-        - Bridge the gap between academic learning and industry needs
-        """)
-    
-    st.subheader("💼 What Mentors Provide")
-    
-    mentor_col1, mentor_col2 = st.columns(2)
-    
-    with mentor_col1:
-        with st.container(border=True):
-            st.markdown("**🗣️ Career Guidance**")
-            st.caption("Advice on career paths, job searching, and professional development in AI/ML")
-        
-        with st.container(border=True):
-            st.markdown("**🔧 Technical Insights**")
-            st.caption("Real-world perspectives on tools, technologies, and best practices")
-    
-    with mentor_col2:
-        with st.container(border=True):
-            st.markdown("**🤝 Networking**")
-            st.caption("Connections to industry professionals and opportunities")
-        
-        with st.container(border=True):
-            st.markdown("**📚 Project Feedback**")
-            st.caption("Input on student projects and research directions")
+with col1:
+    st.markdown(
+        f"""
+        <div class="info-card">
+            <h4 style="margin-top: 0; color: {MINES_COLORS['dark_blue']};">What is MAAG?</h4>
+            <p style="color: {MINES_COLORS['text_dark']}; line-height: 1.8; margin-bottom: 1rem;">
+                The <strong>Mines AI/ML Affinity Group (MAAG)</strong> is a community of Mines alumni 
+                working in artificial intelligence and machine learning fields. Our mission is to:
+            </p>
+            <ul style="color: {MINES_COLORS['text_dark']}; line-height: 1.8;">
+                <li>Connect AI/ML professionals in the Mines alumni network</li>
+                <li>Support current students interested in AI/ML careers</li>
+                <li>Share knowledge and best practices across industries</li>
+                <li>Promote Mines as a leader in AI/ML education</li>
+            </ul>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
 
-with main_col2:
-    st.header("📊 MAAG Impact")
-    
-    with st.container(border=True):
-        st.markdown("### By the Numbers")
-        
-        st.markdown("""
-        | Metric | Value |
-        |--------|-------|
-        | Alumni Mentors | 10+ |
-        | Focus | AI/ML |
-        | Status | Active |
-        """)
-    
-    st.divider()
-    
-    st.info("""
-    **🙋 Interested in Mentoring?**
-    
-    If you're a Mines alum working in AI/ML 
-    and would like to mentor students, 
-    please reach out to the MAAG leadership team.
-    """)
-    
-    st.divider()
-    
-    st.success("""
-    **🎓 For Students:**
-    
-    Looking for an AI/ML mentor? Connect with 
-    MAAG to be matched with an industry professional.
-    """)
+with col2:
+    st.markdown(
+        f"""
+        <div style="background: linear-gradient(135deg, {MINES_COLORS['colorado_red']} 0%, #E05A3C 100%);
+                    padding: 1.5rem; border-radius: 12px; color: white;">
+            <h4 style="color: white !important; margin-bottom: 1rem;">🚀 AI/ML Fields Represented</h4>
+            <div style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
+                {' '.join([f'<span style="background-color: rgba(255,255,255,0.2); padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.85rem;">{field}</span>' for field in ['Machine Learning', 'Deep Learning', 'NLP', 'Computer Vision', 'MLOps', 'Data Science', 'GenAI', 'Robotics']])}
+            </div>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
 
-st.divider()
+# How to Get Involved
+st.markdown("<div class='mines-divider'></div>", unsafe_allow_html=True)
+st.markdown("## 🤝 Get Involved")
 
-# Future Plans section
-st.header("🔮 Future Initiatives")
+col1, col2 = st.columns(2)
 
-future_col1, future_col2, future_col3 = st.columns(3)
+with col1:
+    st.markdown(
+        f"""
+        <div style="background-color: {MINES_COLORS['pale_blue']}; padding: 2rem; border-radius: 12px;">
+            <h4 style="color: {MINES_COLORS['dark_blue']} !important; margin-bottom: 1rem;">
+                👨‍💼 Alumni: Become a Mentor
+            </h4>
+            <p style="color: {MINES_COLORS['text_dark']}; margin-bottom: 1.5rem;">
+                If you're working in AI/ML and want to mentor Mines students, we'd love to hear from you!
+            </p>
+            <div style="background-color: white; padding: 1rem; border-radius: 8px;">
+                <p style="color: {MINES_COLORS['text_dark']}; margin: 0; font-size: 0.9rem;">
+                    <strong>Time Commitment:</strong> Flexible - typically a few hours per semester<br>
+                    <strong>Format:</strong> Virtual meetings, email exchanges, career advice
+                </p>
+            </div>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
 
-with future_col1:
-    with st.container(border=True):
-        st.markdown("### 📅 Events")
-        st.markdown("""
-        - Industry speaker series
-        - Virtual networking events
-        - Career panels
-        - Technical workshops
-        """)
+with col2:
+    st.markdown(
+        f"""
+        <div style="background-color: {MINES_COLORS['dark_blue']}; padding: 2rem; border-radius: 12px; color: white;">
+            <h4 style="color: white !important; margin-bottom: 1rem;">
+                👨‍🎓 Students: Join the Program
+            </h4>
+            <p style="color: {MINES_COLORS['pale_blue']}; margin-bottom: 1.5rem;">
+                Interested in being mentored by an AI/ML professional? Sign up for the Spring 2026 cohort!
+            </p>
+            <div style="background-color: rgba(255,255,255,0.1); padding: 1rem; border-radius: 8px;">
+                <p style="color: {MINES_COLORS['pale_blue']}; margin: 0; font-size: 0.9rem;">
+                    <strong>Eligibility:</strong> Current Mines students interested in AI/ML<br>
+                    <strong>Benefits:</strong> 1-on-1 mentorship, career guidance, networking
+                </p>
+            </div>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
 
-with future_col2:
-    with st.container(border=True):
-        st.markdown("### 🤝 Partnerships")
-        st.markdown("""
-        - Industry collaborations
-        - Research partnerships
-        - Internship programs
-        - Project sponsorships
-        """)
+# Contact Section
+st.markdown("<div class='mines-divider'></div>", unsafe_allow_html=True)
 
-with future_col3:
-    with st.container(border=True):
-        st.markdown("### 📚 Resources")
-        st.markdown("""
-        - Learning materials
-        - Career guides
-        - Tool recommendations
-        - Best practice documentation
-        """)
-
-# Get Involved section
-st.divider()
-
-st.header("🚀 Get Involved")
-
-involved_col1, involved_col2 = st.columns(2)
-
-with involved_col1:
-    st.subheader("For Alumni")
-    
-    st.markdown("""
-    **Ways to Contribute:**
-    
-    1. **Become a Mentor** - Share your experience with students
-    2. **Speak at Events** - Present on AI/ML topics
-    3. **Share Job Opportunities** - Help students find positions
-    4. **Contribute Resources** - Share learning materials
-    """)
-    
-    with st.expander("📧 Contact Information"):
-        st.markdown("""
-        Interested in joining MAAG or becoming a mentor?
-        
-        Reach out to the MAAG leadership team through the 
-        Mines Alumni Association or ProEd office.
-        """)
-
-with involved_col2:
-    st.subheader("For Students")
-    
-    st.markdown("""
-    **Opportunities Available:**
-    
-    1. **Request a Mentor** - Get matched with an industry professional
-    2. **Attend Events** - Join MAAG-sponsored activities
-    3. **Share Your Work** - Present projects to alumni
-    4. **Ask Questions** - Tap into the community's expertise
-    """)
-    
-    with st.expander("🎓 Student Resources"):
-        st.markdown("""
-        Connect with MAAG through:
-        
-        - Mines Career Center
-        - AI/ML student organizations
-        - ProEd office
-        - Alumni Association events
-        """)
-
-# Sidebar
-with st.sidebar:
-    st.header("MAAG Quick Facts")
-    
-    st.markdown("""
-    **Mission:**
-    
-    Connect AI/ML professionals 
-    with Mines students to foster 
-    learning and career development.
-    """)
-    
-    st.divider()
-    
-    st.markdown("""
-    **Key Activities:**
-    
-    - 🎓 Student Mentoring
-    - 📅 Industry Events
-    - 🤝 Networking
-    - 📚 Resource Sharing
-    """)
-    
-    st.divider()
-    
-    st.info("""
-    **Current Focus:**
-    
-    Building the mentoring program 
-    with 10+ alumni mentors from the 
-    AI/ML industry.
-    """)
+st.markdown(
+    f"""
+    <div style="background: linear-gradient(90deg, {MINES_COLORS['dark_blue']} 0%, {MINES_COLORS['blaster_blue']} 50%, {MINES_COLORS['dark_blue']} 100%);
+                padding: 2rem; border-radius: 12px; text-align: center; color: white;">
+        <h3 style="color: white !important; margin-bottom: 0.5rem;">Want to Learn More?</h3>
+        <p style="color: {MINES_COLORS['pale_blue']}; margin-bottom: 1rem;">
+            Reach out to learn more about MAAG and how you can contribute to our student mentorship initiative.
+        </p>
+        <p style="color: {MINES_COLORS['golden_tech']}; font-weight: 600; margin: 0;">
+            Part of the Mines Alumni Board Life Long Learning & Development Committee
+        </p>
+    </div>
+    """,
+    unsafe_allow_html=True,
+)

@@ -1,286 +1,326 @@
 """
-ProEd Program Information Page
-Detailed information about SME roles and financial models.
+Mines ProEd Program Details Page
+SME Information, Financial Model, and Application Process
 """
 import streamlit as st
-from pathlib import Path
-import sys
-
-# Add parent directory to path for imports
-sys.path.insert(0, str(Path(__file__).parent.parent))
-from utils import FOCUS_AREAS, FINANCIAL_MODEL, SME_APPLICATION_LINK, read_docx_content, get_data_path
-
-st.set_page_config(
-    page_title="ProEd Program | Mines",
-    page_icon="📚",
-    layout="wide"
+from utils import (
+    apply_mines_styling,
+    render_sidebar,
+    create_info_card,
+    create_blue_card,
+    MINES_COLORS,
+    SME_DOMAINS,
 )
 
-st.title("📚 ProEd Program Information")
-st.markdown("*Comprehensive guide to the Mines Professional Education program*")
+# Page configuration
+st.set_page_config(
+    page_title="ProEd Program | Mines ProEd",
+    page_icon="⛏️",
+    layout="wide",
+    initial_sidebar_state="expanded",
+)
 
-st.divider()
+# Apply Mines branding
+apply_mines_styling()
+render_sidebar()
+
+# Page Header
+st.markdown(
+    f"""
+    <div style="margin-bottom: 2rem;">
+        <h1 style="color: {MINES_COLORS['dark_blue']};">📚 ProEd Program Details</h1>
+        <p style="color: {MINES_COLORS['text_muted']}; font-size: 1.1rem;">
+            Everything you need to know about becoming a Subject Matter Expert and our compensation model
+        </p>
+    </div>
+    <div class="mines-divider"></div>
+    """,
+    unsafe_allow_html=True,
+)
 
 # Tabs for different sections
-tab1, tab2, tab3, tab4 = st.tabs([
-    "🎓 SME Overview", 
-    "💰 Financial Models", 
-    "📢 Promotion & Awareness",
-    "📄 Swipe File Content"
-])
+tab1, tab2, tab3 = st.tabs(["📋 SME Information", "💰 Financial Model", "📝 Apply Now"])
 
-# Tab 1: SME Overview
+# ====================
+# TAB 1: SME Information
+# ====================
 with tab1:
-    st.header("What is a Subject Matter Expert (SME)?")
+    st.markdown("## What is a Subject Matter Expert (SME)?")
     
-    col1, col2 = st.columns([2, 1])
+    st.markdown(
+        f"""
+        <div class="blue-card">
+            <p style="margin: 0; line-height: 1.8; color: {MINES_COLORS['text_dark']};">
+                A <strong>Subject Matter Expert (SME)</strong> provides content and materials (text, graphics, slides, video, etc.) 
+                to develop professional education short courses. This can be for online self-study, online facilitated, 
+                in-person, or hybrid courses.
+            </p>
+            <p style="margin: 1rem 0 0 0; line-height: 1.8; color: {MINES_COLORS['text_dark']};">
+                An <strong>Online Learning Experience Designer (OLED)</strong> will work with you to build the online course 
+                components. The SME will review all course materials before it goes final.
+            </p>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
     
-    with col1:
-        st.markdown("""
-        A **Subject Matter Expert (SME)** provides content and materials to develop professional 
-        education short courses. This includes:
-        
-        - 📝 Text content and written materials
-        - 🎨 Graphics and visual elements
-        - 📊 Slides and presentations
-        - 🎥 Video content
-        
-        An **Online Learning Experience Designer (OLED)** will work with you to build the 
-        online course components. The SME reviews all course materials before finalization.
-        """)
-        
-        st.subheader("Course Formats")
-        format_col1, format_col2 = st.columns(2)
-        
-        with format_col1:
-            with st.container(border=True):
-                st.markdown("**🖥️ Online Self-Study**")
-                st.caption("Learn at your own pace, anytime, anywhere")
-            
-            with st.container(border=True):
-                st.markdown("**🏫 In-Person**")
-                st.caption("Traditional classroom experience")
-        
-        with format_col2:
-            with st.container(border=True):
-                st.markdown("**👨‍🏫 Online Facilitated**")
-                st.caption("Instructor-led virtual sessions")
-            
-            with st.container(border=True):
-                st.markdown("**🔄 Hybrid**")
-                st.caption("Combined online and in-person")
+    st.markdown("### Areas We're Seeking Course Development")
     
-    with col2:
-        st.info("""
-        **⏱️ Time Commitment**
-        
-        Approximately **4 hours** of preparation 
-        for every **1 hour** of learning content.
-        
-        *Training and support provided throughout the process.*
-        """)
-        
-        st.link_button(
-            "📝 Apply to be an SME",
-            SME_APPLICATION_LINK,
-            type="primary",
-            use_container_width=True
-        )
+    col1, col2 = st.columns(2)
     
-    st.subheader("🎯 Focus Areas")
-    st.markdown("We are seeking course development in the following areas:")
+    domains_icons = {
+        "Energy - Traditional Sources": "⛽",
+        "Energy - Nuclear": "☢️",
+        "Energy - Geothermal": "🌋",
+        "AI Use in Industry": "🤖",
+        "Executive Education in STEM Fields": "📊",
+        "Mining & Minerals": "⛏️",
+        "Aerospace": "🚀",
+        "Construction Engineering": "🏗️",
+    }
     
-    focus_cols = st.columns(3)
-    icons = ["🔋", "🤖", "📈", "⛏️", "🚀", "🏗️"]
+    for i, domain in enumerate(SME_DOMAINS):
+        with col1 if i < len(SME_DOMAINS) // 2 else col2:
+            icon = domains_icons.get(domain, "📋")
+            st.markdown(
+                f"""
+                <div style="background-color: {MINES_COLORS['pale_blue']}; padding: 0.75rem 1rem; 
+                            border-radius: 8px; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.75rem;">
+                    <span style="font-size: 1.5rem;">{icon}</span>
+                    <span style="color: {MINES_COLORS['dark_blue']}; font-weight: 500;">{domain}</span>
+                </div>
+                """,
+                unsafe_allow_html=True,
+            )
     
-    for i, (area, icon) in enumerate(zip(FOCUS_AREAS, icons)):
-        with focus_cols[i % 3]:
-            with st.container(border=True):
-                st.markdown(f"**{icon} {area}**")
+    st.markdown("### Time Commitment")
+    
+    st.markdown(
+        create_info_card(
+            "Planning Your Commitment",
+            """The time commitment varies depending on the course format and how organized your content and materials are. 
+            <br><br><strong>General guideline:</strong> Approximately <span style="color: #CC4628; font-weight: 600;">4 hours of preparation 
+            for every 1 hour of learning</span>.
+            <br><br>Some SMEs take longer, while others who have well-organized content need less time. 
+            New SMEs often find it takes more time than expected. We provide training (online self-study course) 
+            and support throughout the process.""",
+            "⏱️"
+        ),
+        unsafe_allow_html=True,
+    )
 
-# Tab 2: Financial Models
+# ====================
+# TAB 2: Financial Model
+# ====================
 with tab2:
-    st.header("💰 SME Financial Models")
+    st.markdown("## Financial Model for Mines ProEd")
     
     # Self-Paced Courses
-    st.subheader("📖 Self-Paced (On-Demand) Courses")
-    
-    opt_col1, opt_col2 = st.columns(2)
-    
-    with opt_col1:
-        with st.container(border=True):
-            st.markdown("### Option A: Revenue Share Model")
-            st.metric(
-                label="Base Compensation",
-                value="$250",
-                delta="per learning hour created"
-            )
-            st.markdown("**Plus:** 20% of net revenue share")
-            st.caption("Ideal for courses with high enrollment potential")
-    
-    with opt_col2:
-        with st.container(border=True):
-            st.markdown("### Option B: Flat Rate Model")
-            st.metric(
-                label="Base Compensation",
-                value="$750",
-                delta="per learning hour created"
-            )
-            st.markdown("**Revenue Share:** None")
-            st.caption("Predictable income, no ongoing revenue")
-    
-    st.divider()
-    
-    # Facilitated Courses
-    st.subheader("👨‍🏫 Online Facilitated Courses")
-    
-    st.warning("""
-    **Note:** Facilitated delivery requires active participation from the instructor 
-    throughout the course each time it is taught.
-    """)
-    
-    fac_col1, fac_col2, fac_col3 = st.columns(3)
-    
-    with fac_col1:
-        st.metric(
-            label="Teaching Compensation",
-            value="$2,500",
-            delta="per teaching day"
-        )
-    
-    with fac_col2:
-        st.metric(
-            label="Preparation Fee",
-            value="$1,250",
-            delta="per teaching day"
-        )
-    
-    with fac_col3:
-        st.metric(
-            label="Revenue Share",
-            value="20%",
-            delta="of net revenue"
-        )
-    
-    # Example calculation
-    with st.expander("📊 Example: Two-Day Course Calculation"):
-        st.markdown("""
-        For a **two-day facilitated course**:
-        
-        | Component | Calculation | Amount |
-        |-----------|-------------|--------|
-        | Teaching | 2 days × $2,500 | $5,000 |
-        | Preparation | 2 days × $1,250 | $2,500 |
-        | **Total Base** | | **$7,500** |
-        | Revenue Share | 20% of net revenue | Variable |
-        """)
-
-# Tab 3: Promotion & Awareness
-with tab3:
-    st.header("📢 Promotion & Awareness Building")
-    
-    st.markdown("""
-    Promotion of ProEd is currently in the **awareness building** phase. 
-    Word of mouth and opportunities to make alumni aware of the program are greatly appreciated.
-    """)
+    st.markdown("### 📹 Self-Paced (On-Demand) Courses")
     
     col1, col2 = st.columns(2)
     
     with col1:
-        st.subheader("Current Promotion Efforts")
-        
-        with st.container(border=True):
-            st.markdown("**📧 Email Campaigns**")
-            st.caption("Based on funding and available resources")
-        
-        with st.container(border=True):
-            st.markdown("**🎉 idigMines Events**")
-            st.caption("ProEd will be a highlighted cause in mid-February events")
-        
-        with st.container(border=True):
-            st.markdown("**📋 Swipe Sheet**")
-            st.caption("Available for consistent messaging and links")
+        st.markdown(
+            f"""
+            <div style="background: linear-gradient(135deg, {MINES_COLORS['dark_blue']} 0%, {MINES_COLORS['blaster_blue']} 100%);
+                        padding: 1.5rem; border-radius: 12px; color: white; height: 280px;">
+                <h4 style="color: {MINES_COLORS['golden_tech']} !important; margin-bottom: 1rem;">Option A: Revenue Share</h4>
+                <div style="font-size: 2rem; font-weight: 700; margin-bottom: 0.5rem;">$250</div>
+                <p style="color: {MINES_COLORS['pale_blue']}; margin-bottom: 1rem;">per learning hour created</p>
+                <div style="background-color: rgba(255,255,255,0.1); padding: 0.75rem; border-radius: 8px;">
+                    <span style="color: {MINES_COLORS['golden_tech']}; font-weight: 600;">PLUS:</span>
+                    <span style="font-size: 1.25rem; font-weight: 600;"> 20%</span>
+                    <span style="color: {MINES_COLORS['pale_blue']};"> of net revenue</span>
+                </div>
+                <p style="color: {MINES_COLORS['light_blue']}; font-size: 0.85rem; margin-top: 1rem;">
+                    Great for courses with high enrollment potential
+                </p>
+            </div>
+            """,
+            unsafe_allow_html=True,
+        )
     
     with col2:
-        st.subheader("How You Can Help")
-        
-        st.success("""
-        **Ways to Support ProEd Awareness:**
-        
-        - 🗣️ Share with your professional network
-        - 📱 Post about ProEd on social media
-        - 👥 Mention to fellow Mines alumni
-        - 📧 Forward information to interested colleagues
-        - 🎤 Speak about ProEd at events
-        """)
+        st.markdown(
+            f"""
+            <div style="background-color: {MINES_COLORS['pale_blue']}; border: 3px solid {MINES_COLORS['dark_blue']};
+                        padding: 1.5rem; border-radius: 12px; height: 280px;">
+                <h4 style="color: {MINES_COLORS['dark_blue']} !important; margin-bottom: 1rem;">Option B: Flat Rate</h4>
+                <div style="font-size: 2rem; font-weight: 700; color: {MINES_COLORS['dark_blue']}; margin-bottom: 0.5rem;">$750</div>
+                <p style="color: {MINES_COLORS['text_dark']}; margin-bottom: 1rem;">per learning hour created</p>
+                <div style="background-color: white; padding: 0.75rem; border-radius: 8px;">
+                    <span style="color: {MINES_COLORS['text_dark']};">No additional revenue share</span>
+                </div>
+                <p style="color: {MINES_COLORS['text_muted']}; font-size: 0.85rem; margin-top: 1rem;">
+                    Predictable compensation upfront
+                </p>
+            </div>
+            """,
+            unsafe_allow_html=True,
+        )
     
-    st.divider()
+    st.markdown("<br>", unsafe_allow_html=True)
     
-    st.subheader("🤖 AI Integration")
+    # Facilitated Courses
+    st.markdown("### 👨‍🏫 Online Facilitated Courses")
     
-    st.info("""
-    **Future AI Opportunities:**
-    
-    There is openness to conversations about using AI both in course development and promotion. 
-    
-    Note: The HiTA (AI Teaching Assistant) program is currently only available for credit-bearing 
-    courses, not for ProEd. Future plans for this program are being evaluated.
-    """)
-
-# Tab 4: Swipe File Content
-with tab4:
-    st.header("📄 ProEd Swipe File Content")
-    st.markdown("*Content from the official Mines ProEd Swipe File document*")
-    
-    # Try to load the DOCX file
-    docx_path = get_data_path() / "MINES PROED SWIPE FILE.docx"
-    
-    if docx_path.exists():
-        try:
-            content = read_docx_content(str(docx_path))
-            
-            if content:
-                current_heading = None
-                for item in content:
-                    if item["type"] == "heading":
-                        level = item.get("level", 1)
-                        if level == 1:
-                            st.header(item["content"])
-                        elif level == 2:
-                            st.subheader(item["content"])
-                        else:
-                            st.markdown(f"**{item['content']}**")
-                        current_heading = item["content"]
-                    elif item["type"] == "list_item":
-                        st.markdown(f"- {item['content']}")
-                    else:
-                        st.markdown(item["content"])
-            else:
-                st.info("The swipe file appears to be empty or could not be parsed.")
-                
-        except Exception as e:
-            st.error(f"Error loading document: {str(e)}")
-            st.info("Please ensure python-docx is installed: `pip install python-docx`")
-    else:
-        st.warning(f"Swipe file not found at: {docx_path}")
-        st.info("Please ensure the 'MINES PROED SWIPE FILE.docx' is in the data folder.")
-
-# Sidebar info
-with st.sidebar:
-    st.header("Quick Links")
-    
-    st.link_button(
-        "📝 SME Application",
-        SME_APPLICATION_LINK,
-        use_container_width=True
+    st.info(
+        "**Note:** Facilitated delivery requires active participation from the instructor throughout the course each time it is taught.",
+        icon="ℹ️"
     )
     
-    st.divider()
+    col1, col2, col3 = st.columns(3)
     
-    st.markdown("""
-    **Contact:**
+    with col1:
+        st.markdown(
+            f"""
+            <div style="background-color: {MINES_COLORS['dark_blue']}; padding: 1.5rem; border-radius: 12px; 
+                        color: white; text-align: center;">
+                <div style="font-size: 0.9rem; color: {MINES_COLORS['pale_blue']}; margin-bottom: 0.5rem;">Teaching Fee</div>
+                <div style="font-size: 2rem; font-weight: 700;">$2,500</div>
+                <div style="font-size: 0.85rem; color: {MINES_COLORS['light_blue']};">per teaching day</div>
+            </div>
+            """,
+            unsafe_allow_html=True,
+        )
     
-    Sam Spiegel  
-    *Assistant VP of Online & ProEd*  
-    Colorado School of Mines
-    """)
+    with col2:
+        st.markdown(
+            f"""
+            <div style="background-color: {MINES_COLORS['blaster_blue']}; padding: 1.5rem; border-radius: 12px; 
+                        color: white; text-align: center;">
+                <div style="font-size: 0.9rem; color: {MINES_COLORS['pale_blue']}; margin-bottom: 0.5rem;">Prep Fee</div>
+                <div style="font-size: 2rem; font-weight: 700;">$1,250</div>
+                <div style="font-size: 0.85rem; color: {MINES_COLORS['light_blue']};">per teaching day</div>
+            </div>
+            """,
+            unsafe_allow_html=True,
+        )
+    
+    with col3:
+        st.markdown(
+            f"""
+            <div style="background-color: {MINES_COLORS['colorado_red']}; padding: 1.5rem; border-radius: 12px; 
+                        color: white; text-align: center;">
+                <div style="font-size: 0.9rem; color: rgba(255,255,255,0.8); margin-bottom: 0.5rem;">Revenue Share</div>
+                <div style="font-size: 2rem; font-weight: 700;">20%</div>
+                <div style="font-size: 0.85rem; color: rgba(255,255,255,0.8);">of net revenue</div>
+            </div>
+            """,
+            unsafe_allow_html=True,
+        )
+    
+    # Example calculation
+    st.markdown("<br>", unsafe_allow_html=True)
+    st.markdown("### 📊 Example Calculation")
+    
+    with st.expander("See example: Two-day facilitated course", expanded=True):
+        st.markdown(
+            f"""
+            <table style="width: 100%; border-collapse: collapse;">
+                <tr style="background-color: {MINES_COLORS['dark_blue']}; color: white;">
+                    <th style="padding: 1rem; text-align: left;">Component</th>
+                    <th style="padding: 1rem; text-align: right;">Calculation</th>
+                    <th style="padding: 1rem; text-align: right;">Amount</th>
+                </tr>
+                <tr style="background-color: {MINES_COLORS['pale_blue']};">
+                    <td style="padding: 0.75rem;">Teaching Fee</td>
+                    <td style="padding: 0.75rem; text-align: right;">$2,500 × 2 days</td>
+                    <td style="padding: 0.75rem; text-align: right; font-weight: 600;">$5,000</td>
+                </tr>
+                <tr>
+                    <td style="padding: 0.75rem;">Preparation Fee</td>
+                    <td style="padding: 0.75rem; text-align: right;">$1,250 × 2 days</td>
+                    <td style="padding: 0.75rem; text-align: right; font-weight: 600;">$2,500</td>
+                </tr>
+                <tr style="background-color: {MINES_COLORS['pale_blue']};">
+                    <td style="padding: 0.75rem;">Revenue Share</td>
+                    <td style="padding: 0.75rem; text-align: right;">20% of net revenue</td>
+                    <td style="padding: 0.75rem; text-align: right; font-weight: 600;">Variable</td>
+                </tr>
+                <tr style="background-color: {MINES_COLORS['dark_blue']}; color: white;">
+                    <td style="padding: 0.75rem; font-weight: 600;">Base Total</td>
+                    <td style="padding: 0.75rem;"></td>
+                    <td style="padding: 0.75rem; text-align: right; font-weight: 700; font-size: 1.1rem;">$7,500 + 20%</td>
+                </tr>
+            </table>
+            """,
+            unsafe_allow_html=True,
+        )
+
+# ====================
+# TAB 3: Apply Now
+# ====================
+with tab3:
+    st.markdown("## Ready to Become an SME?")
+    
+    col1, col2 = st.columns([2, 1])
+    
+    with col1:
+        st.markdown(
+            f"""
+            <div class="info-card">
+                <h4 style="margin-top: 0; color: {MINES_COLORS['dark_blue']};">🎯 What We're Looking For</h4>
+                <ul style="color: {MINES_COLORS['text_dark']}; line-height: 1.8;">
+                    <li>Deep expertise in one of our focus areas</li>
+                    <li>Passion for teaching and sharing knowledge</li>
+                    <li>Ability to translate complex topics for professionals</li>
+                    <li>Willingness to collaborate with our learning design team</li>
+                </ul>
+            </div>
+            """,
+            unsafe_allow_html=True,
+        )
+        
+        st.markdown(
+            f"""
+            <div class="blue-card">
+                <h4 style="margin-top: 0; color: {MINES_COLORS['dark_blue']};">📚 What We Provide</h4>
+                <ul style="color: {MINES_COLORS['text_dark']}; line-height: 1.8;">
+                    <li>Dedicated Online Learning Experience Designer (OLED)</li>
+                    <li>Self-study training course on course development</li>
+                    <li>Ongoing support throughout the process</li>
+                    <li>Review process before materials go final</li>
+                </ul>
+            </div>
+            """,
+            unsafe_allow_html=True,
+        )
+    
+    with col2:
+        st.markdown(
+            f"""
+            <div style="background: linear-gradient(135deg, {MINES_COLORS['dark_blue']} 0%, {MINES_COLORS['blaster_blue']} 100%);
+                        padding: 2rem; border-radius: 12px; text-align: center; color: white;">
+                <div style="font-size: 3rem; margin-bottom: 1rem;">📝</div>
+                <h3 style="color: white !important; margin-bottom: 1rem;">Apply Now</h3>
+                <p style="color: {MINES_COLORS['pale_blue']}; margin-bottom: 1.5rem; font-size: 0.9rem;">
+                    Fill out our SME application form to get started
+                </p>
+                <a href="https://webforms.pipedrive.com/f/clTeQxDh43DxZluuQxlgduRDzDnztn2vjizguzjcyzcHtmzZhocEMbCATC0qF1KMzV" 
+                   target="_blank"
+                   style="background-color: {MINES_COLORS['colorado_red']}; color: white !important; 
+                          padding: 0.75rem 1.5rem; border-radius: 6px; text-decoration: none;
+                          font-weight: 600; display: inline-block;">
+                    Start Application →
+                </a>
+            </div>
+            """,
+            unsafe_allow_html=True,
+        )
+    
+    # Contact Information
+    st.markdown("<div class='mines-divider'></div>", unsafe_allow_html=True)
+    st.markdown("### Questions?")
+    st.markdown(
+        f"""
+        <div style="background-color: {MINES_COLORS['pale_blue']}; padding: 1.5rem; border-radius: 12px;">
+            <p style="margin: 0; color: {MINES_COLORS['dark_blue']};">
+                For more information about the SME program, please contact:
+                <br><strong>Sam Spiegel</strong>, Assistant VP of Online & ProEd at Colorado School of Mines
+            </p>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )

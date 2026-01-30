@@ -60,5 +60,7 @@ Display all the SME recommendations in a table nicely.
 - Julian will sponsor the initial overhead cost of using AI for course development and deployment.
 4. Alumni feedback for what courses to create. 
 
-Add a page highlighting updates from the Mines AI/ML Affinity Group (MAAG), including student mentoring efforts.
+Add a page highlighting updates from the Mines AI/ML Affinity Group (MAAG), which is simply student mentoring efforts mentioned below.
 - Invited 10+ alumni working in the AI/ML field to serve as mentors for Mines students starting Spring 2026.
+
+Follow Mines branding, use logos: https://brand.mines.edu/logos/, color and fonts: https://brand.mines.edu/fonts/
